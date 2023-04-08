@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { View, ScrollView } from "react-native";
-import { SearchBar, ListItem, Avatar, Icon, Text } from "react-native-elements";
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView } from 'react-native';
+import { SearchBar, ListItem, Avatar, Icon, Text } from 'react-native-elements';
 import {
   collection,
   query,
@@ -10,29 +10,29 @@ import {
   orderBy,
   getDocs,
   onSnapshot,
-} from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import MapView from "react-native-maps";
+} from 'firebase/firestore';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import MapView from 'react-native-maps';
 
-import { size, map } from "lodash";
-import { useNavigation } from "@react-navigation/native";
-import { Loading } from "../components/Shared";
-import { db, screen } from "../utils";
-import { SearchBarExplore } from "../components/Restaurants/SearchBarExplore";
-import { Explore } from "../components/Restaurants/Explore";
+import { size, map } from 'lodash';
+import { useNavigation } from '@react-navigation/native';
+import { Loading } from '../components/Shared';
+import { db, screen } from '../utils';
+import { SearchBarExplore } from '../components/Restaurants/SearchBarExplore';
+import { Explore } from '../components/Restaurants/Explore';
 export function SearchScreen() {
-  const [searchText, setSearchText] = useState("");
-  const [transformedText, setTransformedText] = useState("");
+  const [searchText, setSearchText] = useState('');
+  const [transformedText, setTransformedText] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [restaurants, setRestaurants] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
   const autoCapitalizeText = (text) => {
     const newText = text
-      .split(" ")
+      .split(' ')
       .map((word) => {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
       })
-      .join(" ");
+      .join(' ');
     setSearchText(newText);
   };
   useEffect(() => {
@@ -43,8 +43,8 @@ export function SearchScreen() {
   }, []);
   useEffect(() => {
     const q = query(
-      collection(db, "restaurants"),
-      orderBy("createdAt", "desc")
+      collection(db, 'restaurants'),
+      orderBy('createdAt', 'desc')
     );
     // onSnapshot(q, (snapshot) => {
     //   setRestaurants(snapshot.docs);
@@ -57,15 +57,15 @@ export function SearchScreen() {
       const data = snapshot.docs.map((doc) => doc.data());
 
       setRestaurants(data);
-      console.log("restaurantsNUEVOS", data);
+      // console.log("restaurantsNUEVOS", data);
     });
   }, []);
 
   useEffect(() => {
     (async () => {
       const q = query(
-        collection(db, "restaurants"),
-        orderBy("name"),
+        collection(db, 'restaurants'),
+        orderBy('name'),
         startAt(searchText),
         endAt(`${searchText}\uf8ff`),
         limit(20)

@@ -4,23 +4,23 @@ import {
   Animated,
   TouchableOpacity,
   TextInput,
-} from "react-native";
-import React, { useState, useEffect } from "react";
-import { styles } from "./ListRestaurants.styles";
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { styles } from './ListRestaurants.styles';
 import {
   Text,
   Image,
   Input,
   SearchBar,
   Dimensions,
-} from "react-native-elements";
-import MapView from "react-native-maps";
-import { Marker } from "react-native-maps";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Fontisto from "react-native-vector-icons/Fontisto";
+} from 'react-native-elements';
+import MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
-import * as Location from "expo-location";
+import * as Location from 'expo-location';
 import {
   MARGIN,
   CARD_WIDTH,
@@ -28,17 +28,17 @@ import {
   HEIGHT,
   SPACING_FOR_CARD_INSET,
   width,
-} from "../../../screens/Restaurants/RestaurantsScreen";
+} from '../../../screens/Restaurants/RestaurantsScreen';
 export function ListRestaurants(props) {
   console.log(
-    "DIMENSIONS",
+    'DIMENSIONS',
     MARGIN,
     CARD_WIDTH,
     CARD_HEIGHT,
     HEIGHT,
     SPACING_FOR_CARD_INSET
   );
-  console.log("WIDTH", width);
+  console.log('WIDTH', width);
   const { restaurants } = props;
 
   const restaurantsLocation = restaurants.map((restaurant) => {
@@ -59,7 +59,7 @@ export function ListRestaurants(props) {
     restaurantsLocation,
     categories: [
       {
-        name: "Fastfood Center",
+        name: 'Fastfood Center',
         icon: (
           <MaterialCommunityIcons
             style={styles.chipsIcon}
@@ -69,13 +69,13 @@ export function ListRestaurants(props) {
         ),
       },
       {
-        name: "Restaurant",
+        name: 'Restaurant',
         icon: (
           <Ionicons name="ios-restaurant" style={styles.chipsIcon} size={18} />
         ),
       },
       {
-        name: "Café",
+        name: 'Café',
         icon: (
           <MaterialCommunityIcons
             style={styles.chipsIcon}
@@ -85,7 +85,7 @@ export function ListRestaurants(props) {
         ),
       },
       {
-        name: "Bar",
+        name: 'Bar',
         icon: (
           <MaterialCommunityIcons
             style={styles.chipsIcon}
@@ -95,7 +95,7 @@ export function ListRestaurants(props) {
         ),
       },
       {
-        name: "Dessert",
+        name: 'Dessert',
         icon: (
           <MaterialCommunityIcons
             style={styles.chipsIcon}
@@ -113,17 +113,17 @@ export function ListRestaurants(props) {
     },
   };
   const [state, setState] = useState(initialMapState);
-  console.log("STATE", state.restaurantsLocation[0].name);
+  // console.log("STATE", state.restaurantsLocation[0].name);
   let mapIndex = 0;
   let mapAnimation = new Animated.Value(0);
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
+      if (status !== 'granted') {
         Toast.show({
-          type: "info",
-          position: "button",
-          text1: "Go to settings and enable location permission for this app",
+          type: 'info',
+          position: 'button',
+          text1: 'Go to settings and enable location permission for this app',
         });
         return;
       }
@@ -135,7 +135,7 @@ export function ListRestaurants(props) {
         longitudeDelta: 0.001,
       });
 
-      console.log("LOCATIONTEMP", locationTemp);
+      console.log('LOCATIONTEMP', locationTemp);
     })();
   }, []);
   const x = new Animated.Value(0);
@@ -182,12 +182,12 @@ export function ListRestaurants(props) {
     setOffsetStart(offsetStart);
   };
 
-  console.log("restaurantsLocation", restaurantsLocation);
-  console.log("Height", CARD_HEIGHT);
-  console.log("Width", CARD_WIDTH);
-  console.log("MARGIN", MARGIN);
+  console.log('restaurantsLocation', restaurantsLocation);
+  console.log('Height', CARD_HEIGHT);
+  console.log('Width', CARD_WIDTH);
+  console.log('MARGIN', MARGIN);
   const goToRestaurant = (restaurant) => {
-    console.log("restaurant", restaurants);
+    console.log('restaurant', restaurants);
   };
   const _flatListRef = React.useRef(null);
   const _mapRef = React.useRef(null);
@@ -209,7 +209,7 @@ export function ListRestaurants(props) {
       >
         {restaurantsLocation.map(
           (restaurant, index) => (
-            console.log("restaurantindividual", restaurant),
+            console.log('restaurantindividual', restaurant),
             (
               <Marker
                 key={index}
@@ -222,7 +222,7 @@ export function ListRestaurants(props) {
               >
                 <Animated.View style={[styles.markerWrap]}>
                   <Animated.Image
-                    source={require("../../../../assets/img/suMLIqqc.png/")}
+                    source={require('../../../../assets/img/suMLIqqc.png/')}
                     style={[styles.marker]}
                     resizeMode="cover"
                   />

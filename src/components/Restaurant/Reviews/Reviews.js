@@ -1,9 +1,9 @@
-import { View } from "react-native";
-import { Text, AirbnbRating, ListItem, Avatar } from "react-native-elements";
-import { DateTime } from "luxon";
+import { View } from 'react-native';
+import { Text, AirbnbRating, ListItem, Avatar } from 'react-native-elements';
+import { DateTime } from 'luxon';
 
-import React, { useState, useEffect } from "react";
-import { styles } from "./Reviews.styles";
+import React, { useState, useEffect, useCallback } from 'react';
+import { styles } from './Reviews.styles';
 import {
   doc,
   onSnapshot,
@@ -11,12 +11,13 @@ import {
   query,
   where,
   orderBy,
-} from "firebase/firestore";
-import { db } from "../../../utils";
-import { map } from "lodash";
-import { useNavigation } from "@react-navigation/native";
-import { screen } from "../../../utils";
-import { Loading } from "../../../components/Shared";
+  getDocs,
+} from 'firebase/firestore';
+import { db } from '../../../utils';
+import { map } from 'lodash';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { screen } from '../../../utils';
+import { Loading } from '../../../components/Shared';
 
 export function Reviews(props) {
   const { idRestaurant } = props;
@@ -27,26 +28,44 @@ export function Reviews(props) {
     });
   };
   const [reviews, setReviews] = useState([]);
-  // const [avatar, setAvatar] = useState();
-  useEffect(() => {
+  const [avatar, setAvatar] = useState();
+  // useEffect(() => {
+  //   const q = query(
+  //     collection(db, "reviews"),
+  //     where("idRestaurant", "==", idRestaurant),
+  //     orderBy("createdAt", "desc")
+  //   );
+
+  //   onSnapshot(q, (snapshot) => {
+  //     setReviews(snapshot.docs);
+  //     console.log("idRestaurantReviews", idRestaurant);
+  //   });
+  // }, []);
+
+  const getReviews = async () => {
+    console.log('Get Reviews');
     const q = query(
-      collection(db, "reviews"),
-      where("idRestaurant", "==", idRestaurant),
-      orderBy("createdAt", "desc")
+      collection(db, 'reviews'),
+      where('idRestaurant', '==', idRestaurant),
+      orderBy('createdAt', 'desc')
     );
 
-    onSnapshot(q, (snapshot) => {
-      setReviews(snapshot.docs);
-      console.log("idRestaurantReviews", idRestaurant);
-    });
-  }, []);
+    const querySnapshot = await getDocs(q);
+    const docs = querySnapshot.docs.map((doc) => doc.data());
+    setReviews(docs);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      getReviews();
+    }, [])
+  );
 
   if (!reviews) return <Loading show text="Cargando" />;
 
   return (
     <View style={styles.content}>
-      {map(reviews.slice(0, 3), (review) => {
-        const data = review.data();
+      {map(reviews.slice(0, 3), (data) => {
         const createReview = new Date(data.createdAt.seconds * 1000);
 
         return (
@@ -55,7 +74,7 @@ export function Reviews(props) {
               <Avatar
                 size={50}
                 rounded
-                icon={{ type: "material", name: "person" }}
+                icon={{ type: 'material', name: 'person' }}
                 containerStyle={styles.avatar}
                 source={{ uri: data.avatar }}
               />

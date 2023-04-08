@@ -6,9 +6,9 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
-} from "react-native";
-import React, { useState, useEffect, useRef } from "react";
-import { styles } from "./Explore.styles";
+} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { styles } from './Explore.styles';
 import {
   Text,
   Image,
@@ -16,14 +16,14 @@ import {
   SearchBar,
   Dimensions,
   Rating,
-} from "react-native-elements";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { Marker } from "react-native-maps";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Fontisto from "react-native-vector-icons/Fontisto";
+} from 'react-native-elements';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
-import * as Location from "expo-location";
+import * as Location from 'expo-location';
 // import {
 //   width,
 //   height,
@@ -34,8 +34,8 @@ import * as Location from "expo-location";
 //   SPACING_FOR_CARD_INSET,
 // } from "../../../screens/Restaurants/RestaurantsScreen";
 // import { width } from "../../../screens/Restaurants/RestaurantsScreen";
-import { useNavigation, useTheme } from "@react-navigation/native";
-import { screen } from "../../../utils";
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { screen } from '../../../utils';
 // import { SearchBarExplore } from "../SearchBarExplore";
 
 export function Explore(props) {
@@ -81,7 +81,7 @@ export function Explore(props) {
     markers,
     categories: [
       {
-        name: "Fastfood Center",
+        name: 'Fastfood Center',
         icon: (
           <MaterialCommunityIcons
             style={styles.chipsIcon}
@@ -91,13 +91,13 @@ export function Explore(props) {
         ),
       },
       {
-        name: "Restaurant",
+        name: 'Restaurant',
         icon: (
           <Ionicons name="ios-restaurant" style={styles.chipsIcon} size={18} />
         ),
       },
       {
-        name: "Café",
+        name: 'Café',
         icon: (
           <MaterialCommunityIcons
             style={styles.chipsIcon}
@@ -107,7 +107,7 @@ export function Explore(props) {
         ),
       },
       {
-        name: "Bar",
+        name: 'Bar',
         icon: (
           <MaterialCommunityIcons
             style={styles.chipsIcon}
@@ -117,7 +117,7 @@ export function Explore(props) {
         ),
       },
       {
-        name: "Dessert",
+        name: 'Dessert',
         icon: (
           <MaterialCommunityIcons
             style={styles.chipsIcon}
@@ -135,7 +135,7 @@ export function Explore(props) {
     },
   };
   const [state, setState] = useState(initialMapState);
-  console.log("STATE", state.markers);
+  // console.log("STATE", state.markers);
   let mapIndex = 0;
   let mapAnimation = new Animated.Value(0);
 
@@ -148,6 +148,7 @@ export function Explore(props) {
     //   },
     // });
   };
+
   useEffect(() => {
     mapAnimation.addListener(({ value }) => {
       let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
@@ -187,7 +188,7 @@ export function Explore(props) {
     const scale = mapAnimation.interpolate({
       inputRange,
       outputRange: [1, 1.5, 1],
-      extrapolate: "clamp",
+      extrapolate: 'clamp',
     });
 
     return { scale };
@@ -197,7 +198,7 @@ export function Explore(props) {
     const markerID = mapEventData._targetInst.return.key;
 
     let x = markerID * CARD_WIDTH + markerID * 20;
-    if (Platform.OS === "ios") {
+    if (Platform.OS === 'ios') {
       x = x - SPACING_FOR_CARD_INSET;
     }
 
@@ -231,7 +232,7 @@ export function Explore(props) {
             >
               <Animated.View style={[styles.markerWrap]}>
                 <Animated.Image
-                  source={require("../../../../assets/img/matti-ecoadvisor263.png/")}
+                  source={require('../../../../assets/img/matti-ecoadvisor263.png/')}
                   style={[styles.marker, scaleStyle]}
                   resizeMode="cover"
                 />
@@ -282,7 +283,7 @@ export function Explore(props) {
           right: 20,
         }}
         contentContainerStyle={{
-          paddingRight: Platform.OS === "android" ? 20 : 0,
+          paddingRight: Platform.OS === 'android' ? 20 : 0,
         }}
       >
         {state.categories.map((category, index) => (
@@ -310,7 +311,7 @@ export function Explore(props) {
         }}
         contentContainerStyle={{
           paddingHorizontal:
-            Platform.OS === "android" ? SPACING_FOR_CARD_INSET : 0,
+            Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
         }}
         onScroll={Animated.event(
           [
@@ -330,17 +331,17 @@ export function Explore(props) {
             style={{
               flex: 1,
               elevation: 2,
-              backgroundColor: "#FFF",
+              backgroundColor: '#FFF',
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
               marginHorizontal: 10,
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowRadius: 5,
               shadowOpacity: 0.3,
               shadowOffset: { x: 2, y: -2 },
               height: CARD_HEIGHT,
               width: CARD_WIDTH,
-              overflow: "hidden",
+              overflow: 'hidden',
               borderRadius: 20,
             }}
             key={index}
@@ -353,7 +354,7 @@ export function Explore(props) {
                 source={
                   marker.image
                     ? { uri: marker.image }
-                    : require("../../../../assets/img/suMLIqqc.png/")
+                    : require('../../../../assets/img/suMLIqqc.png/')
                 }
                 // source={require("../../../../assets/img/image-not-showing.webp/")}
                 resizeMode="cover"
@@ -386,7 +387,7 @@ export function Explore(props) {
                     styles.signIn,
                     {
                       borderRadius: 15,
-                      borderColor: "#FF6347",
+                      borderColor: '#FF6347',
                       borderWidth: 1,
                     },
                   ]}
@@ -395,11 +396,11 @@ export function Explore(props) {
                     style={[
                       styles.textSign,
                       {
-                        color: "#FF6347",
+                        color: '#FF6347',
                       },
                     ]}
                   >
-                    See details{" "}
+                    See details{' '}
                   </Text>
                 </TouchableOpacity>
               </View>

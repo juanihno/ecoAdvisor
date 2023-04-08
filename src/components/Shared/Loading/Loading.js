@@ -1,11 +1,11 @@
-import { View, ActivityIndicator } from "react-native";
-import React from "react";
-import { styles } from "./Loading.styles";
-import { Text } from "react-native-elements";
+import { View, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { styles } from './Loading.styles';
+import { Text } from 'react-native-elements';
 
 export function Loading(props) {
   const { show, text } = props;
-  console.log("COSITASVARIAS", show, text);
+  // console.log("COSITASVARIAS", show, text);
   if (!show) return null;
   return (
     <View style={styles.content}>

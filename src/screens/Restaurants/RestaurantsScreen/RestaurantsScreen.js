@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { View, Dimensions } from "react-native";
-import { Icon, Text } from "react-native-elements";
-import { styles } from "./RestaurantsScreen.styles";
-import { screen, db } from "../../../utils";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import React, { useState, useEffect } from 'react';
+import { View, Dimensions } from 'react-native';
+import { Icon, Text } from 'react-native-elements';
+import { styles } from './RestaurantsScreen.styles';
+import { screen, db } from '../../../utils';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
   collection,
   getDocs,
@@ -13,13 +13,13 @@ import {
   startAt,
   endAt,
   limit,
-} from "firebase/firestore";
-import { LoadingModal } from "../../../components/Shared";
-import { Explore } from "../../../components/Restaurants/Explore";
-import { SearchBarExplore } from "../../../components/Restaurants/SearchBarExplore";
+} from 'firebase/firestore';
+import { LoadingModal } from '../../../components/Shared';
+import { Explore } from '../../../components/Restaurants/Explore';
+import { SearchBarExplore } from '../../../components/Restaurants/SearchBarExplore';
 const ratio = 228 / 250;
 export const MARGIN = 5;
-export const { width, height } = Dimensions.get("window");
+export const { width, height } = Dimensions.get('window');
 export const CARD_WIDTH = width * 0.6;
 export const CARD_HEIGHT = CARD_WIDTH * ratio;
 export const HEIGHT = CARD_HEIGHT + MARGIN * 2;
@@ -41,23 +41,23 @@ export function RestaurantsScreen(props) {
   const [currentUser, setCurrentUser] = useState(null);
   const [restaurants, setRestaurants] = useState(null);
   // const { width } = Dimensions.get("window");
-  const [searchText, setSearchText] = useState("");
-  const [transformedText, setTransformedText] = useState("");
+  const [searchText, setSearchText] = useState('');
+  const [transformedText, setTransformedText] = useState('');
   const [searchResults, setSearchResults] = useState(null);
   const autoCapitalizeText = (text) => {
     const newText = text
-      .split(" ")
+      .split(' ')
       .map((word) => {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
       })
-      .join(" ");
+      .join(' ');
     setSearchText(newText);
   };
   useEffect(() => {
     (async () => {
       const q = query(
-        collection(db, "restaurants"),
-        orderBy("name"),
+        collection(db, 'restaurants'),
+        orderBy('name'),
         startAt(searchText),
         endAt(`${searchText}\uf8ff`),
         limit(20)
@@ -82,8 +82,8 @@ export function RestaurantsScreen(props) {
   }, []);
   useEffect(() => {
     const q = query(
-      collection(db, "restaurants"),
-      orderBy("createdAt", "desc")
+      collection(db, 'restaurants'),
+      orderBy('createdAt', 'desc')
     );
     // onSnapshot(q, (snapshot) => {
     //   setRestaurants(snapshot.docs);
@@ -96,7 +96,7 @@ export function RestaurantsScreen(props) {
       const data = snapshot.docs.map((doc) => doc.data());
 
       setRestaurants(data);
-      console.log("restaurantsNUEVOS", data);
+      // console.log("restaurantsNUEVOS", data);
     });
   }, []);
 
