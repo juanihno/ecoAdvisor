@@ -1,48 +1,25 @@
-import { View } from "react-native";
+import { View } from 'react-native';
 import {
   Text,
   AirbnbRating,
   ListItem,
   Avatar,
   Button,
-} from "react-native-elements";
+} from 'react-native-elements';
 
-import React, { useState, useEffect } from "react";
-import { styles } from "./AllReviews.styles";
-import {
-  doc,
-  onSnapshot,
-  collection,
-  query,
-  where,
-  orderBy,
-} from "firebase/firestore";
-import { db } from "../../../utils";
-import { map, size } from "lodash";
-import { Loading } from "../../../components/Shared";
+import React from 'react';
+import { styles } from './AllReviews.styles';
+import { map, size } from 'lodash';
+import { Loading } from '../../../components/Shared';
 
 export function AllReviews(props) {
-  const { idRestaurant } = props;
-
-  const [reviews, setReviews] = useState([]);
-  useEffect(() => {
-    const q = query(
-      collection(db, "reviews"),
-      where("idRestaurant", "==", idRestaurant),
-      orderBy("rating", "desc")
-    );
-
-    onSnapshot(q, (snapshot) => {
-      setReviews(snapshot.docs);
-    });
-  }, []);
+  const { reviews } = props;
 
   if (!reviews) return <Loading show text="Cargando" />;
   if (size(reviews) === 0) return <Text>No hay comentarios</Text>;
   return (
     <View style={styles.content}>
-      {map(reviews, (review) => {
-        const data = review.data();
+      {map(reviews, (data) => {
         const createReview = new Date(data.createdAt.seconds * 1000);
 
         return (
@@ -50,16 +27,16 @@ export function AllReviews(props) {
             rightContent={
               <Button
                 title="Delete"
-                icon={{ type: "material-community", name: "trash-can" }}
+                icon={{ type: 'material-community', name: 'trash-can' }}
                 buttonStyle={{
-                  minHeight: "100%",
-                  backgroundColor: "red",
+                  minHeight: '100%',
+                  backgroundColor: 'red',
                 }}
-                onPress={() => console.log("Delete")}
+                onPress={() => console.log('Delete')}
               />
             }
             rightStyle={{
-              backgroundColor: "red",
+              backgroundColor: 'red',
               paddingVertical: 20,
               marginTop: 5,
               borderRadius: 10,
@@ -72,7 +49,7 @@ export function AllReviews(props) {
               <Avatar
                 size={50}
                 rounded
-                icon={{ type: "material", name: "person" }}
+                icon={{ type: 'material', name: 'person' }}
                 containerStyle={styles.avatar}
                 source={{ uri: data.avatar }}
               />

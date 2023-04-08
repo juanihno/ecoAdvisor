@@ -1,7 +1,7 @@
-import { View } from "react-native";
-import React, { useState, useEffect } from "react";
-import { styles } from "./BtnFavorite.styles";
-import { Icon } from "react-native-elements";
+import { View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { styles } from './BtnFavorite.styles';
+import { Icon } from 'react-native-elements';
 import {
   doc,
   setDoc,
@@ -10,11 +10,11 @@ import {
   where,
   collection,
   deleteDoc,
-} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { v4 as uuidv4 } from "uuid";
-import { db } from "../../../utils";
-import { size, forEach } from "lodash";
+} from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { v4 as uuidv4 } from 'uuid';
+import { db } from '../../../utils';
+import { size, forEach } from 'lodash';
 
 export function BtnFavorite(props) {
   const { idRestaurant } = props;
@@ -31,7 +31,7 @@ export function BtnFavorite(props) {
         setIsFavorite(false);
       }
 
-      console.log("response", size(response));
+      // console.log('Favorite', size(response) > 0 ? true : false);
     })();
   }, [idRestaurant, isReload]);
 
@@ -40,9 +40,9 @@ export function BtnFavorite(props) {
   const getFavorites = async () => {
     try {
       const q = query(
-        collection(db, "favorites"),
-        where("idRestaurant", "==", idRestaurant),
-        where("idUser", "==", auth.currentUser.uid)
+        collection(db, 'favorites'),
+        where('idRestaurant', '==', idRestaurant),
+        where('idUser', '==', auth.currentUser.uid)
       );
       const result = await getDocs(q);
       return result.docs;
@@ -57,22 +57,22 @@ export function BtnFavorite(props) {
         idRestaurant,
         idUser: auth.currentUser.uid,
       };
-      await setDoc(doc(db, "favorites", idFavorite), data);
+      await setDoc(doc(db, 'favorites', idFavorite), data);
       onReload();
-      console.log("addFavorite", idFavorite);
+      console.log('addFavorite', idFavorite);
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     }
   };
   const removeFavorite = async () => {
     try {
       const response = await getFavorites();
       forEach(response, async (item) => {
-        await deleteDoc(doc(db, "favorites", item.id));
+        await deleteDoc(doc(db, 'favorites', item.id));
         onReload();
       });
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     }
   };
   return (
@@ -80,8 +80,8 @@ export function BtnFavorite(props) {
       {isFavorite !== undefined && (
         <Icon
           type="material-community"
-          name={isFavorite ? "heart" : "heart-outline"}
-          color={isFavorite ? "#f00" : "#000"}
+          name={isFavorite ? 'heart' : 'heart-outline'}
+          color={isFavorite ? '#f00' : '#000'}
           size={35}
           onPress={isFavorite ? removeFavorite : addFavorite}
         />

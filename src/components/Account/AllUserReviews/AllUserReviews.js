@@ -21,11 +21,13 @@ import {
   orderBy,
   deleteDoc,
   getDocs,
+  getDoc,
 } from 'firebase/firestore';
 import { db } from '../../../utils';
 import { map, size } from 'lodash';
 import { Loading } from '../../../components/Shared';
 import { useFocusEffect } from '@react-navigation/core';
+import { updateRestaurant } from '../../../utils/generalUtilities';
 
 export function AllUserReviews(props) {
   const { userId, haslogged } = props;
@@ -81,7 +83,7 @@ export function AllUserReviews(props) {
   //   console.log("FILTERREVIEWSLOGCHANGED", size(filterReviews));
   // }, [reviews]);
 
-  const getReviews = async () => {
+  const getUserReviews = async () => {
     try {
       const q = query(
         collection(db, 'reviews'),
@@ -103,7 +105,7 @@ export function AllUserReviews(props) {
   // When the reviews page is focus call the reviews function
   useFocusEffect(
     useCallback(() => {
-      getReviews();
+      getUserReviews();
     }, [])
   );
 
@@ -184,20 +186,12 @@ export function AllUserReviews(props) {
     console.log('Delete id: ', id);
     try {
       if (id) {
+        const getReview = await getDoc(doc(db, 'reviews', id));
+        const review = getReview.data();
         await deleteDoc(doc(db, 'reviews', id));
-        await getReviews();
+        await updateRestaurant(review.idRestaurant);
+        await getUserReviews();
       }
-      //   const newReviews = filterReviews.filter((review) => review.id !== id);
-      //   setFilterReviews(newReviews);
-
-      //   setSelected(stars);
-      //   setRating(rating);
-      //   if (rating === 0) {
-      //     setSelected(stars);
-      //     if (size(filterReviews) === 0) {
-      //       setReviews([]);
-      //     }
-      //   }
       console.log('Document successfully deleted!');
     } catch (error) {
       console.log('Error removing document: ', error);

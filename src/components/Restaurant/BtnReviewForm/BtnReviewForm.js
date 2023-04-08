@@ -1,16 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import { styles } from './BtnReviewForm.styles';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { screen } from '../../../utils';
-import { query, collection, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../../../utils';
-import { size } from 'lodash';
 
 export function BtnReviewForm(props) {
-  const { idRestaurant, restaurantName } = props;
+  const { idRestaurant, restaurantName, userReview } = props;
   const [haslogged, setHasLogged] = useState(false);
   const [hasReview, setHasReview] = useState(false);
   const navigation = useNavigation();
@@ -20,24 +17,6 @@ export function BtnReviewForm(props) {
       setHasLogged(user ? true : false);
     });
   }, []);
-
-  useEffect(() => {
-    if (haslogged) {
-      const q = query(
-        collection(db, 'reviews'),
-        where('idRestaurant', '==', idRestaurant),
-        where('idUser', '==', auth.currentUser.uid)
-      );
-      onSnapshot(q, (snapShot) => {
-        const reviews = snapShot.docs;
-        if (size(reviews) > 0) {
-          setHasReview(true);
-        } else {
-          setHasReview(false);
-        }
-      });
-    }
-  }, [haslogged]);
 
   const goToLogin = () => {
     navigation.navigate(screen.account.tab, { screen: screen.account.login });
@@ -55,7 +34,7 @@ export function BtnReviewForm(props) {
     });
   }, []);
 
-  if (hasReview && haslogged) {
+  if (userReview.length > 0 && haslogged) {
     return (
       <View style={styles.content}>
         <Text style={styles.textSendReview}>

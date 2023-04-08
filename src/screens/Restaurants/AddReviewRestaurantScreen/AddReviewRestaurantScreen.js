@@ -18,15 +18,15 @@ import {
   where,
   onSnapshot,
   updateDoc,
+  getDocs,
 } from 'firebase/firestore';
 import { db } from '../../../utils';
 import { v4 as uuid } from 'uuid';
 import { map, mean } from 'lodash';
 import { useNavigation } from '@react-navigation/native';
+import { updateRestaurant } from '../../../utils/generalUtilities';
 export function AddReviewRestaurantScreen(props) {
   const { route } = props;
-
-  console.log('route', route.params.restaurantName);
   const navigation = useNavigation();
   const formik = useFormik({
     initialValues: initialValues(),
@@ -45,7 +45,10 @@ export function AddReviewRestaurantScreen(props) {
         newData.avatar = auth.currentUser.photoURL;
         newData.createdAt = new Date();
         await setDoc(doc(db, 'reviews', idDoc), newData);
-        await updateRestaurant();
+        await updateRestaurant(route.params.idRestaurant);
+        navigation.navigate(screen.restaurant.restaurant, {
+          id: route.params.idRestaurant,
+        });
         console.log('Document successfully written!', newData);
       } catch (error) {
         Toast.show({
@@ -58,25 +61,6 @@ export function AddReviewRestaurantScreen(props) {
   });
   // console.log("rating", formik.values.rating);
   // console.log("title", formik.values.title);
-  const updateRestaurant = async (idRestaurant, rating) => {
-    const q = query(
-      collection(db, 'reviews'),
-      where('idRestaurant', '==', route.params.idRestaurant)
-    );
-    onSnapshot(q, async (snapShot) => {
-      const reviews = snapShot.docs;
-      const arrayStars = map(reviews, (review) => review.data().rating);
-      const rating = mean(arrayStars);
-      const restaurantRef = doc(db, 'restaurants', route.params.idRestaurant);
-      await updateDoc(restaurantRef, {
-        averageRating: rating,
-      });
-      // navigation.goBack();
-      navigation.navigate(screen.restaurant.restaurant, {
-        id: route.params.idRestaurant,
-      });
-    });
-  };
 
   return (
     <View style={styles.content}>

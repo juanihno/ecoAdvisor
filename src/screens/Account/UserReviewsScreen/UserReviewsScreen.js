@@ -6,9 +6,7 @@ import { styles } from './UserReviewsScreen.styles';
 import React, { useState, useEffect } from 'react';
 import { AllUserReviews } from '../../../components/Account';
 
-export function UserReviewsScreen(props) {
-  const { route } = props;
-  console.log({ route });
+export function UserReviewsScreen() {
   const auth = getAuth();
   const [haslogged, setHasLogged] = useState(false);
   useEffect(() => {

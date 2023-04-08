@@ -1,71 +1,29 @@
 import { View } from 'react-native';
 import { Text, AirbnbRating, ListItem, Avatar } from 'react-native-elements';
-import { DateTime } from 'luxon';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { styles } from './Reviews.styles';
-import {
-  doc,
-  onSnapshot,
-  collection,
-  query,
-  where,
-  orderBy,
-  getDocs,
-} from 'firebase/firestore';
-import { db } from '../../../utils';
 import { map } from 'lodash';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { screen } from '../../../utils';
 import { Loading } from '../../../components/Shared';
 
 export function Reviews(props) {
-  const { idRestaurant } = props;
+  const { allReviews } = props;
   const navigation = useNavigation();
-  const goToDetails = (restaurant) => {
+  const [avatar, setAvatar] = useState();
+
+  const goToDetails = () => {
     navigation.navigate(screen.restaurant.reviewsRestaurant, {
-      id: idRestaurant,
+      reviews: allReviews,
     });
   };
-  const [reviews, setReviews] = useState([]);
-  const [avatar, setAvatar] = useState();
-  // useEffect(() => {
-  //   const q = query(
-  //     collection(db, "reviews"),
-  //     where("idRestaurant", "==", idRestaurant),
-  //     orderBy("createdAt", "desc")
-  //   );
 
-  //   onSnapshot(q, (snapshot) => {
-  //     setReviews(snapshot.docs);
-  //     console.log("idRestaurantReviews", idRestaurant);
-  //   });
-  // }, []);
-
-  const getReviews = async () => {
-    console.log('Get Reviews');
-    const q = query(
-      collection(db, 'reviews'),
-      where('idRestaurant', '==', idRestaurant),
-      orderBy('createdAt', 'desc')
-    );
-
-    const querySnapshot = await getDocs(q);
-    const docs = querySnapshot.docs.map((doc) => doc.data());
-    setReviews(docs);
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      getReviews();
-    }, [])
-  );
-
-  if (!reviews) return <Loading show text="Cargando" />;
+  if (!allReviews) return <Loading show text="Cargando" />;
 
   return (
     <View style={styles.content}>
-      {map(reviews.slice(0, 3), (data) => {
+      {map(allReviews.slice(0, 3), (data) => {
         const createReview = new Date(data.createdAt.seconds * 1000);
 
         return (
@@ -129,12 +87,12 @@ export function Reviews(props) {
           </ListItem>
         );
       })}
-      {reviews.length > 0 && (
+      {allReviews.length > 0 && (
         <View style={styles.seeAll}>
           <Text
             style={styles.text}
             onPress={() => {
-              goToDetails(idRestaurant);
+              goToDetails();
             }}
           >
             See all
