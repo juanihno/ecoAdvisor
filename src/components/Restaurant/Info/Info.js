@@ -1,9 +1,9 @@
-import { View } from 'react-native';
-import React, { useState } from 'react';
-import { styles } from './Info.styles';
-import { Text, ListItem, Icon } from 'react-native-elements';
-import { map } from 'lodash';
-import { Map } from '../../Shared';
+import { View } from "react-native";
+import React, { useState } from "react";
+import { styles } from "./Info.styles";
+import { Text, ListItem, Icon } from "react-native-elements";
+import { map } from "lodash";
+import { Map } from "../../Shared";
 
 export function Info(props) {
   const { restaurant } = props;
@@ -12,20 +12,20 @@ export function Info(props) {
   const listInfo = [
     {
       text: `${restaurant.address}`,
-      iconName: 'map-marker',
-      iconType: 'material-community',
+      iconName: "map-marker",
+      iconType: "material-community",
       action: null,
     },
     {
       text: `${restaurant.email}`,
-      iconName: 'at',
-      iconType: 'material-community',
+      iconName: "at",
+      iconType: "material-community",
       action: null,
     },
     {
       text: `${restaurant.phone}`,
-      iconName: 'phone',
-      iconType: 'material-community',
+      iconName: "phone",
+      iconType: "material-community",
       action: null,
     },
     // restaurant.menu.VeganOptions && {

@@ -62,32 +62,68 @@ export function BussinessFavorites(props) {
       console.log(error);
     }
   };
-  const listInfo = [
-    !bussiness.coffee.DiscountForUsingOwncupe && {
-      img: require("../../../../assets/img/discount-cup.png"),
-      action: null,
-    },
-    !bussiness.menu.FullyVegan && {
-      img: require("../../../../assets/img/fully-vegan.png"),
-      action: null,
-    },
-    !bussiness.menu.FullyVegetarian && {
-      img: require("../../../../assets/img/fully-vegetarian.png"),
-      action: null,
-    },
-    !bussiness.menu.LocalFood && {
-      img: require("../../../../assets/img/local-food.png"),
-      action: null,
-    },
-    !bussiness.waste.FullyPlasticFree && {
-      img: require("../../../../assets/img/no-plastic.png"),
-      action: null,
-    },
-    !bussiness.supplier.ReusableEnergy && {
-      img: require("../../../../assets/img/renewable-energy.png"),
-      action: null,
-    },
-  ];
+  const icons =
+    bussiness.BusinessType === "Restaurant"
+      ? [
+          {
+            id: 1,
+            value: bussiness.coffee.DiscountForUsingOwncup ? "true" : "false",
+
+            img: require("../../../../assets/img/discount-cup.png"),
+          },
+          {
+            id: 2,
+            value: bussiness.menu.FullyVegan ? "true" : "false",
+            img: require("../../../../assets/img/fully-vegan.png"),
+          },
+          {
+            id: 3,
+            value: bussiness.menu.FullyVegan ? "true" : "false",
+            img: require("../../../../assets/img/fully-vegetarian.png"),
+          },
+          {
+            id: 4,
+            value: !bussiness.menu.FullyVegan ? "true" : "false",
+            img: require("../../../../assets/img/local-food.png"),
+          },
+          {
+            id: 5,
+            value: !bussiness.menu.FullyVegan ? "true" : "false",
+            img: require("../../../../assets/img/no-plastic.png"),
+          },
+          {
+            id: 6,
+            value: bussiness.menu.FullyVegan ? "true" : "false",
+            img: require("../../../../assets/img/renewable-energy.png"),
+          },
+        ]
+      : [
+          {
+            id: 1,
+            value: bussiness.FoodProducts.FullyVegan ? "true" : "false",
+            img: require("../../../../assets/img/fully-vegan.png"),
+          },
+          {
+            id: 2,
+            value: bussiness.FoodProducts.FullyVegetarian ? "true" : "false",
+            img: require("../../../../assets/img/fully-vegetarian.png"),
+          },
+          {
+            id: 3,
+            value: bussiness.FoodProducts.LocalFood ? "true" : "false",
+            img: require("../../../../assets/img/local-food.png"),
+          },
+          {
+            id: 4,
+            value: bussiness.FoodProducts.FullyPlasticFree ? "true" : "false",
+            img: require("../../../../assets/img/no-plastic.png"),
+          },
+          {
+            id: 5,
+            value: bussiness.FoodProducts.ReusableEnergy ? "true" : "false",
+            img: require("../../../../assets/img/renewable-energy.png"),
+          },
+        ];
   return (
     <TouchableOpacity onPress={goToBussiness}>
       <View style={styles.content}>
@@ -150,12 +186,12 @@ export function BussinessFavorites(props) {
               // }}
             />
 
-            {!bussiness.coffee.DiscountForUsingOwncupe ||
+            {/* {bussiness.coffee.DiscountForUsingOwncup ||
             !bussiness.menu.FullyVegan ||
             !bussiness.menu.FullyVegetarian ||
             !bussiness.menu.LocalFood ||
             !bussiness.waste.FullyPlasticFree ||
-            !bussiness.supplier.ReusableEnergy ? (
+            bussiness.supplier.ReusableEnergy ? (
               <View style={styles.imgContainer}>
                 {listInfo.map((item, index) => (
                   <Image
@@ -166,7 +202,35 @@ export function BussinessFavorites(props) {
                   />
                 ))}
               </View>
-            ) : null}
+            ) : null} */}
+            <View style={styles.imgContainer}>
+              {/* {icons.forEach((element) => {
+                if (element.icon == "check") {
+                  <Image
+                    style={styles.images}
+                    source={require("../../../../assets/img/discount-cup.png")}
+                    resizeMode="contain"
+                  />;
+                }
+              })} */}
+              {/* {icons.map((item, index) => (
+                <Icon key={index} type="material-community" name={item.icon} />
+              ))} */}
+
+              {icons.map((item, index) => {
+                if (item.value == "true") {
+                  return (
+                    <Image
+                      key={index}
+                      style={styles.images}
+                      source={item.img}
+                    />
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </View>
           </View>
         </View>
       </View>

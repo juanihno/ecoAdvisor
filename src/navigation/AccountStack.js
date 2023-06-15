@@ -3,7 +3,7 @@ import { screen } from "../utils";
 import { AccountScreen } from "../screens/Account/AccountScreen";
 import { LoginScreen } from "../screens/Account/LoginScreen/LoginScreen";
 import { RegisterScreen } from "../screens/Account/RegisterScreen";
-import { UserReviewsScreen } from "../screens/Account/UserReviewsScreen/UserReviewsScreen";
+import { EditRestaurantScreen } from "../screens/Account/EditRestaurantScreen/EditRestaurantScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +24,11 @@ export function AccountStack() {
         name={screen.account.register}
         component={RegisterScreen}
         options={{ title: "Create your account" }}
+      />
+      <Stack.Screen
+        name={screen.account.editRestaurant}
+        component={EditRestaurantScreen}
+        options={{ title: "Edit your restaurant" }}
       />
     </Stack.Navigator>
   );

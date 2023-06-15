@@ -1,6 +1,6 @@
-import { View, Text, ScrollView, Dimensions } from 'react-native';
-import React, { useState, useEffect, useCallback } from 'react';
-import { styles } from './RestaurantScreen.styles';
+import { View, Text, ScrollView, Dimensions } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { styles } from "./RestaurantScreen.styles";
 import {
   doc,
   onSnapshot,
@@ -10,8 +10,8 @@ import {
   collection,
   where,
   getDocs,
-} from 'firebase/firestore';
-import { db } from '../../../utils';
+} from "firebase/firestore";
+import { db } from "../../../utils";
 import {
   Header,
   Info,
@@ -19,11 +19,11 @@ import {
   BtnReviewForm,
   Reviews,
   BtnFavorite,
-} from '../../../components/Restaurant';
-import { Carousel, Loading, Map } from '../../../components/Shared';
-import { useFocusEffect } from '@react-navigation/core';
-import { getAuth } from '@firebase/auth';
-const { width, height } = Dimensions.get('window');
+} from "../../../components/Restaurant";
+import { Carousel, Loading, Map } from "../../../components/Shared";
+import { useFocusEffect } from "@react-navigation/core";
+import { getAuth } from "@firebase/auth";
+const { width, height } = Dimensions.get("window");
 
 export function RestaurantScreen(props) {
   const { route } = props;
@@ -34,7 +34,7 @@ export function RestaurantScreen(props) {
 
   const getRestaurantData = async () => {
     setRestaurant(null);
-    const docRef = doc(db, 'restaurants', route.params.id);
+    const docRef = doc(db, "restaurants", route.params.id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       setRestaurant(docSnap.data());
@@ -43,11 +43,11 @@ export function RestaurantScreen(props) {
 
   const getReviews = async () => {
     try {
-      console.log('Get Reviews', route.params.id);
+      console.log("Get Reviews", route.params.id);
       const q = query(
-        collection(db, 'reviews'),
-        where('idRestaurant', '==', route.params.id),
-        orderBy('createdAt', 'desc')
+        collection(db, "reviews"),
+        where("idRestaurant", "==", route.params.id),
+        orderBy("createdAt", "desc")
       );
       const querySnapshot = await getDocs(q);
       const docs = querySnapshot.docs.map((doc) => doc.data());

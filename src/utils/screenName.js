@@ -27,6 +27,7 @@ const accountStack = {
   account: "Account",
   login: "Login",
   register: "Register",
+  editRestaurant: "EditRestaurant",
 };
 const addStack = {
   tab: "AddTab",

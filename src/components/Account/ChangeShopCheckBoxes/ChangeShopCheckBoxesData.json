@@ -1,0 +1,154 @@
+{
+  "FoodProducts": [
+    {
+      "id": 1,
+      "title": "Fully vegan",
+      "value": "FullyVegan",
+      "checked": false
+    },
+    {
+      "id": 2,
+      "title": "Fully vegetarian",
+      "value": "FullyVegetarian",
+      "checked": false
+    },
+    {
+      "id": 3,
+      "title": "Vegetarian option?",
+      "value": "VegetarianOption",
+      "checked": false
+    },
+    {
+      "id": 4,
+      "title": "Vegan option?",
+      "value": "VeganOption",
+      "checked": false
+    },
+    {
+      "id": 5,
+      "title": "Organic products?",
+      "value": "OrganicProducts",
+      "checked": false
+    },
+    {
+      "id": 6,
+      "title": "Free range meat?",
+      "value": "FreeRangeMeat",
+      "checked": false
+    },
+    {
+      "id": 7,
+      "title": "Free range eggs ?",
+      "value": "FreeRangeEggs",
+      "checked": false
+    },
+    {
+      "id": 8,
+      "title": "Local food/products?",
+      "value": "LocalFoodProducts",
+      "checked": false
+    },
+    {
+      "id": 9,
+      "title": "Locally made?",
+      "value": "LocallyMade",
+      "checked": false
+    },
+    {
+      "id": 10,
+      "title": "No animal tested products?",
+      "value": "NoAnimalTestedProducts",
+      "checked": false
+    },
+    {
+      "id": 11,
+      "title": "cruelty free products?",
+      "value": "CrueltyFreeProducts",
+      "checked": false
+    },
+    {
+      "id": 12,
+      "title": "Local materials?",
+      "value": "LocalMaterials",
+      "checked": false
+    },
+    {
+      "id": 13,
+      "title": "No single use itmes?",
+      "value": "NoSingleUseItems",
+      "checked": false
+    },
+    {
+      "id": 14,
+      "title": "Second hand products?",
+      "value": "SecondHandProducts",
+      "checked": false
+    },
+    {
+      "id": 15,
+      "title": "Recicled materials?",
+      "value": "RecicledMaterials",
+      "checked": false
+    },
+    {
+      "id": 16,
+      "title": "Free of child labour?",
+      "value": "FreeOfChildLabour",
+      "checked": false
+    }
+  ],
+  "SupplierEnergy": [
+    {
+      "id": 1,
+      "title": "Non toxic cleaning product?",
+      "value": "NonToxicCleaningProduct"
+    },
+    {
+      "id": 2,
+      "title": "Managing water waste?",
+      "value": "ManagingWaterWaste"
+    },
+    {
+      "id": 3,
+      "title": "Managing electricity waste ",
+      "value": "ManagingElectricityWaste"
+    },
+    {
+      "id": 4,
+      "title": "Reusable energy?",
+      "value": "ReusableEnergy"
+    }
+  ],
+  "waste": [
+    {
+      "id": 1,
+      "title": "Fully plastic bag free?",
+      "value": "FullyPlasticBagFree"
+    },
+    {
+      "id": 2,
+      "title": "Plastic bag free?",
+      "value": "PlasticBagFree"
+    },
+    {
+      "id": 3,
+      "title": "Plastic packaging free?",
+      "value": "PlasticPackagingFree"
+    },
+    {
+      "id": 4,
+      "title": "Selling reusable bags?",
+      "value": "SellingReusableBags"
+    },
+    {
+      "id": 5,
+      "title": "Welcome reusable Bags?",
+      "value": "WelcomeReusableBags"
+    },
+    {
+      "id": 6,
+      "title": "Dedicates recycling Bins?",
+      "value": "DedicatesRecyclingBins"
+    }
+  ]
+}

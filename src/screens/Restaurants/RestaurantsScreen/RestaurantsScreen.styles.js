@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   },
   btnContainer: {
     position: "absolute",
-    bottom: 10,
+    top: 70,
     right: 10,
     shadowColor: "black",
     shadowOffset: { width: 2, height: 2 },

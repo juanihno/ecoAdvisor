@@ -75,7 +75,8 @@ export function FavoritesScreen() {
 
   if (!hasLogged) return <UserNotLogged />;
   if (!business) return <Loading show text="Loading..." />;
-  if (size(business) === 0) return <NotFoundBussiness />;
+  if (size(business) === 0)
+    return <NotFoundBussiness text="You don't have any favorites yet..." />;
   return (
     <View
       style={{

@@ -11,6 +11,17 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#ccc",
   },
+  alert: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: "65%",
+  },
+  alertText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   content: {
     justifyContent: "center",
     marginHorizontal: 10,

@@ -1,12 +1,12 @@
 import { View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styles } from "./InfoForm.styles";
 import { Input, Text } from "react-native-elements";
 import { MapForm } from "../MapForm";
 import { Switch } from "react-native-switch";
 
 export function InfoForm(props) {
-  const { formik } = props;
+  const { formik, userId } = props;
   const [showMap, setShowMap] = useState(false);
   const onOpenCloseMap = () => {
     setShowMap((prevState) => !prevState);
@@ -22,9 +22,18 @@ export function InfoForm(props) {
   const toggleSwitch = () => {
     setIsEnabled(!isEnabled);
     formik.setFieldValue("owner", !isEnabled);
+    // formik.setFieldValue("userId", userId);
+    // console.log("changed", userId);
   };
-  // console.log(isEnabled);
-  console.log("owner", isEnabled);
+  // checkOwner = () => {
+  //   //if isEnabled is true, set userId to formik(not implemented yet)
+  //   if (isEnabled === true) {
+  //     formik.setFieldValue("userId", userId);
+  //     console.log("changed", userId);
+  //   } else {
+  //     formik.setFieldValue("userId", "");
+  //   }
+  // };
 
   return (
     <>

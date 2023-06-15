@@ -11,7 +11,7 @@ export function RestaurantCheckBox(props) {
     formik.setFieldValue(`${type}.${value}`, !formik.values[type][value]);
   };
 
-  console.log("Formik values", formik.values);
+  // console.log("Formik values", formik.values);
 
   const [showCoffee, setShowCoffee] = useState(false);
   const [showMenu, setShowMenu] = useState(false);

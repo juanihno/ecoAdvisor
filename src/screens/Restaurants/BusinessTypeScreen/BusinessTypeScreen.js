@@ -25,6 +25,8 @@ export function BusinessTypeScreen(props) {
   };
   const goToShopFormTypeScreen = () => {
     navigation.navigate(screen.restaurant.shopTypeForm, {
+      ownerFormValue: ownerFormValue,
+
       // console: console.log("pasando valores fromik", formik.values),
     });
   };

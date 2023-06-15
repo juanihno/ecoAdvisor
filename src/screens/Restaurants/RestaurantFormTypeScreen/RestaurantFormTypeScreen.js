@@ -1,5 +1,5 @@
 import { ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { styles } from "./RestaurantFormTypeScreen.styles";
 import {
   RestaurantTypeDropdown,
@@ -15,10 +15,23 @@ import { screen } from "../../../utils";
 import { v4 as uuidv4 } from "uuid";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../utils";
+import { getAuth } from "firebase/auth";
 
 export function RestaurantFormTypeScreen(props) {
+  const auth = getAuth();
+  const userId = auth.currentUser.uid;
+  console.log("USERID", userId);
+
   const { navigation } = props;
   const ownerFormValue = props.route.params.ownerFormValue;
+  // useeffect to check if the ownerFormValue.owner is true
+
+  useEffect(() => {
+    if (ownerFormValue.owner === true) {
+      formik.setFieldValue("userId", userId);
+      console.log("USERIDSET", userId);
+    }
+  }, []);
 
   console.log("restaurantFormTypeScreen", ownerFormValue);
 

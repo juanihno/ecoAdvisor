@@ -7,6 +7,7 @@ import { UserLoggedScreen } from "./UserLoggedScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Reviews } from "../../components/Restaurant";
 import { UserReviewsScreen } from "./UserReviewsScreen/UserReviewsScreen";
+import { UserRestaurantScreen } from "./UserRestaurantScreen/UserRestaurantScreen";
 export function AccountScreen() {
   const TopTab = createMaterialTopTabNavigator();
 
@@ -85,6 +86,11 @@ export function AccountScreen() {
       <TopTab.Screen
         name="My reviews"
         component={UserReviewsScreen}
+        // component={() => <UserReviewsScreen />}
+      />
+      <TopTab.Screen
+        name="My business"
+        component={UserRestaurantScreen}
         // component={() => <UserReviewsScreen />}
       />
       {/* <TopTab.Screen

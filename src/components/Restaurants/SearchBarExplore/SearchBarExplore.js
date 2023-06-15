@@ -67,7 +67,14 @@ export function SearchBarExplore(props) {
 
         onChangeText={(text) => autoCapitalizeText(text)}
       />
-
+      {/* <View style={{ marginEnd: 10, marginTop: 10, alignSelf: "flex-end" }}>
+        <Icon
+          type="material-community"
+          name="air-filter"
+          color="#95b53b"
+          size="30"
+        />
+      </View> */}
       {!searchResults && <Loading show text="Cargando" />}
       {searchText && (
         <ScrollView>

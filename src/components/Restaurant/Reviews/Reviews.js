@@ -1,21 +1,23 @@
-import { View } from 'react-native';
-import { Text, AirbnbRating, ListItem, Avatar } from 'react-native-elements';
+import { View } from "react-native";
+import { Text, AirbnbRating, ListItem, Avatar } from "react-native-elements";
 
-import React, { useState } from 'react';
-import { styles } from './Reviews.styles';
-import { map } from 'lodash';
-import { useNavigation } from '@react-navigation/native';
-import { screen } from '../../../utils';
-import { Loading } from '../../../components/Shared';
+import React, { useState } from "react";
+import { styles } from "./Reviews.styles";
+import { map } from "lodash";
+import { useNavigation } from "@react-navigation/native";
+import { screen } from "../../../utils";
+import { Loading } from "../../../components/Shared";
 
 export function Reviews(props) {
-  const { allReviews } = props;
+  const { allReviews, idRestaurant } = props;
   const navigation = useNavigation();
   const [avatar, setAvatar] = useState();
 
   const goToDetails = () => {
     navigation.navigate(screen.restaurant.reviewsRestaurant, {
       reviews: allReviews,
+      idRestaurant: idRestaurant,
+      console: console.log("YENDO A REVIEWS", idRestaurant),
     });
   };
 
@@ -32,7 +34,7 @@ export function Reviews(props) {
               <Avatar
                 size={50}
                 rounded
-                icon={{ type: 'material', name: 'person' }}
+                icon={{ type: "material", name: "person" }}
                 containerStyle={styles.avatar}
                 source={{ uri: data.avatar }}
               />

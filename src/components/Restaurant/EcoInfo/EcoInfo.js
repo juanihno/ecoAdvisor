@@ -2,66 +2,91 @@ import { View } from "react-native";
 import React, { useState } from "react";
 import { styles } from "./EcoInfo.styles";
 import { Text, ListItem, Icon, Image, Avatar } from "react-native-elements";
-import { map } from "lodash";
 export function EcoInfo(props) {
   const { restaurant } = props;
   const [showListInfo, setShowListInfo] = useState(false);
-  // console.log("fullyVegan", restaurant.menu.VeganOptions);
+  const icons =
+    restaurant.BusinessType === "Restaurant"
+      ? [
+          {
+            id: 1,
+            text: "Discount for using own cup",
+            value: restaurant.coffee.DiscountForUsingOwncup ? "true" : "false",
 
-  const listInfo = [
-    !restaurant.coffee.DiscountForUsingOwncupe && {
-      text: "Discount for using own cup",
-      // leftIconName: "coffee",
-      // iconType: "material-community",
-      img: require("../../../../assets/img/discount-cup.png"),
-      action: null,
-    },
-    !restaurant.menu.FullyVegan && {
-      text: "Fully Vegan",
-      // leftIconName: "food",
-      // iconType: "material-community",
-      img: require("../../../../assets/img/fully-vegan.png"),
-      action: null,
-    },
-    !restaurant.menu.FullyVegetarian && {
-      text: "Fully Vegetarian",
-      // leftIconName: "food",
-      // iconType: "material-community",
-      img: require("../../../../assets/img/fully-vegetarian.png"),
-      action: null,
-    },
-    !restaurant.menu.LocalFood && {
-      text: "Local Food",
-      // leftIconName: "food",
-      // iconType: "material-community",
-      img: require("../../../../assets/img/local-food.png"),
-      action: null,
-    },
-    !restaurant.waste.FullyPlasticFree && {
-      text: "Fully Plastic Free",
-      // leftIconName: "food",
-      // iconType: "material-community",
-      img: require("../../../../assets/img/no-plastic.png"),
-      action: null,
-    },
-    !restaurant.supplier.ReusableEnergy && {
-      text: "Reusable Energy",
-      // leftIconName: "food",
-      // iconType: "material-community",
-      img: require("../../../../assets/img/renewable-energy.png"),
-      action: null,
-    },
-  ];
+            img: require("../../../../assets/img/discount-cup.png"),
+          },
+          {
+            id: 2,
+            text: "Fully vegan options",
+            value: restaurant.menu.FullyVegan ? "true" : "false",
+            img: require("../../../../assets/img/fully-vegan.png"),
+          },
+          {
+            id: 3,
+            text: "Fully vegetarian options",
+            value: restaurant.menu.FullyVegetarian ? "true" : "false",
+            img: require("../../../../assets/img/fully-vegetarian.png"),
+          },
+          {
+            id: 4,
+            text: "Local food",
+            value: restaurant.menu.LocalFood ? "true" : "false",
+            img: require("../../../../assets/img/local-food.png"),
+          },
+          {
+            id: 5,
+            text: "No plastic",
+            value: restaurant.waste.FullyPlasticFree ? "true" : "false",
+            img: require("../../../../assets/img/no-plastic.png"),
+          },
+          {
+            id: 6,
+            text: "Renewable energy",
+            value: restaurant.supplier.ReusableEnergy ? "true" : "false",
+            img: require("../../../../assets/img/renewable-energy.png"),
+          },
+        ]
+      : [
+          {
+            id: 1,
+            text: "Fully vegan options",
+            value: restaurant.FoodProducts.FullyVegan ? "true" : "false",
+            img: require("../../../../assets/img/fully-vegan.png"),
+          },
+          {
+            id: 2,
+            text: "Fully vegetarian options",
+            value: restaurant.FoodProducts.FullyVegetarian ? "true" : "false",
+            img: require("../../../../assets/img/fully-vegetarian.png"),
+          },
+          {
+            id: 3,
+            text: "Local food",
+            value: restaurant.FoodProducts.LocalFood ? "true" : "false",
+            img: require("../../../../assets/img/local-food.png"),
+          },
+          {
+            id: 4,
+            text: "No plastic",
+            value: restaurant.waste.FullyPlasticFree ? "true" : "false",
+            img: require("../../../../assets/img/no-plastic.png"),
+          },
+          {
+            id: 5,
+            text: "Renewable energy",
+            value: restaurant.SupplierEnergy.ReusableEnergy ? "true" : "false",
+            img: require("../../../../assets/img/renewable-energy.png"),
+          },
+        ];
+
+  //create array of icons that are true
+  const trueIcons = icons.filter((icon) => icon.value === "true");
+
   return (
     <View style={styles.content}>
       {/* <View style={styles.titleContainer}> */}
       <View>
-        {!restaurant.menu.FullyVegan ||
-        !restaurant.FullyVegetarian ||
-        !restaurant.waste.FullyPlasticFree ||
-        !restaurant.supplier.ReusableEnergy ||
-        !restaurant.coffee.DiscountForUsingOwncupe ||
-        !restaurant.menu.LocalFood ? (
+        {trueIcons.length > 0 && (
           <ListItem
             // style={styles.listItem}
             bottomDivider
@@ -84,43 +109,27 @@ export function EcoInfo(props) {
               }}
             />
           </ListItem>
-        ) : null}
-
-        {/* <Text
-          style={styles.title}
-          onPress={() => {
-            showListInfo ? setShowListInfo(false) : setShowListInfo(true);
-          }}
-        >
-          Highlights
-        </Text> */}
-        {/* <Image
-          source={require("../../../../assets//img/13526-Health_Star_Rating_Logo.jpg")}
-          style={styles.image}
-        /> */}
+        )}
       </View>
-      {map(
-        listInfo,
-        (item, index) =>
-          //if item.text is not empty then render the ListItem component else return null (nothing)
-          // item.text && (
-          showListInfo && (
-            <ListItem key={index} style={styles.listItem}>
-              <ListItem.Content>
-                <ListItem.Title style={{ fontSize: 15 }}>
-                  {item.text}
-                </ListItem.Title>
-              </ListItem.Content>
-              <Image source={item.img} style={styles.img} />
-              {/* <Icon
-              name={item.leftIconName}
-              type={item.iconType}
-              color="#c2c2c2"
-              size={15}
-            /> */}
-            </ListItem>
-          )
-      )}
+
+      {icons.map((item, index) => {
+        if (item.value == "true") {
+          return (
+            showListInfo && (
+              <ListItem key={index} style={styles.listItem}>
+                <ListItem.Content>
+                  <ListItem.Title style={{ fontSize: 15 }}>
+                    {item.text}
+                  </ListItem.Title>
+                </ListItem.Content>
+                <Image source={item.img} style={styles.img} />
+              </ListItem>
+            )
+          );
+        } else {
+          return null;
+        }
+      })}
     </View>
   );
 }

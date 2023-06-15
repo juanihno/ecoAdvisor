@@ -4,3 +4,8 @@ export * from "./ChangeDisplayNameForm";
 export * from "./ChangeEmailForm";
 export * from "./ChangePasswordForm";
 export * from "./AllUserReviews";
+export * from "./UserRestaurants";
+export * from "./ImageRestaurantAccount";
+export * from "./ImageRestaurantAccount";
+export * from "./HeaderAccount";
+export * from "./InfoAccount";

@@ -1,10 +1,10 @@
-import { View, Text, ScrollView, SafeAreaView } from 'react-native';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { query, collection, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../../../utils';
-import { styles } from './UserReviewsScreen.styles';
-import React, { useState, useEffect } from 'react';
-import { AllUserReviews } from '../../../components/Account';
+import { View, Text, ScrollView, SafeAreaView } from "react-native";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { query, collection, where, onSnapshot } from "firebase/firestore";
+import { db } from "../../../utils";
+import { styles } from "./UserReviewsScreen.styles";
+import React, { useState, useEffect } from "react";
+import { AllUserReviews } from "../../../components/Account";
 
 export function UserReviewsScreen() {
   const auth = getAuth();

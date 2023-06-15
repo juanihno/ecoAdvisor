@@ -5,6 +5,7 @@ import "yup-phone-lite";
 export function initialValues() {
   return {
     BusinessType: "Shop",
+    userId: "",
     ShopType: "",
     FoodProducts: {
       FullyVegan: false,
@@ -42,6 +43,7 @@ export function initialValues() {
 export function validationSchema() {
   return Yup.object().shape({
     BusinessType: Yup.string(),
+    userId: Yup.string(),
     ShopType: Yup.string().required("Restaurant type is required"),
     FoodProducts: Yup.object({
       VegetarianOption: Yup.boolean(),

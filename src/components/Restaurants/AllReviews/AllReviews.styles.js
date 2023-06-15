@@ -4,6 +4,13 @@ export const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 10,
   },
+  noReviews: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#ccc",
+    textAlign: "center",
+    paddingTop: "50%",
+  },
   avatarName: {
     paddingLeft: 10,
     paddingTop: 10,

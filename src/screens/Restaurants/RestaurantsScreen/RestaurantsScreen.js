@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { View, Dimensions } from 'react-native';
-import { Icon, Text } from 'react-native-elements';
-import { styles } from './RestaurantsScreen.styles';
-import { screen, db } from '../../../utils';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import React, { useState, useEffect } from "react";
+import { View, Dimensions } from "react-native";
+import { Icon, Text } from "react-native-elements";
+import { styles } from "./RestaurantsScreen.styles";
+import { screen, db } from "../../../utils";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   getDocs,
@@ -13,13 +13,14 @@ import {
   startAt,
   endAt,
   limit,
-} from 'firebase/firestore';
-import { LoadingModal } from '../../../components/Shared';
-import { Explore } from '../../../components/Restaurants/Explore';
-import { SearchBarExplore } from '../../../components/Restaurants/SearchBarExplore';
+} from "firebase/firestore";
+import { LoadingModal } from "../../../components/Shared";
+import { Explore } from "../../../components/Restaurants/Explore";
+import { SearchBarExplore } from "../../../components/Restaurants/SearchBarExplore";
+import { FilterRestaurants } from "../../../components/Restaurants/FilterRestaurants";
 const ratio = 228 / 250;
 export const MARGIN = 5;
-export const { width, height } = Dimensions.get('window');
+export const { width, height } = Dimensions.get("window");
 export const CARD_WIDTH = width * 0.6;
 export const CARD_HEIGHT = CARD_WIDTH * ratio;
 export const HEIGHT = CARD_HEIGHT + MARGIN * 2;
@@ -36,28 +37,34 @@ export function RestaurantsScreen(props) {
   // const [SPACING_FOR_CARD_INSET, setSPACING_FOR_CARD_INSET] = useState(
   //   width * 0.1 - 10
   // );
-
+  const [isReload, setIsReload] = useState(false);
+  const onReload = () => setIsReload((prevState) => !prevState);
+  // function changeRestaurant to change the restaurants state to pass as props to the filter component
+  const updateRestaurants = (restaurants) => {
+    setRestaurants(restaurants);
+  };
   const { navigation } = props;
   const [currentUser, setCurrentUser] = useState(null);
-  const [restaurants, setRestaurants] = useState(null);
+  const [restaurants, setRestaurants] = useState();
+  // console.log("restaurantsMain", restaurants.length);
   // const { width } = Dimensions.get("window");
-  const [searchText, setSearchText] = useState('');
-  const [transformedText, setTransformedText] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [transformedText, setTransformedText] = useState("");
   const [searchResults, setSearchResults] = useState(null);
   const autoCapitalizeText = (text) => {
     const newText = text
-      .split(' ')
+      .split(" ")
       .map((word) => {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
       })
-      .join(' ');
+      .join(" ");
     setSearchText(newText);
   };
   useEffect(() => {
     (async () => {
       const q = query(
-        collection(db, 'restaurants'),
-        orderBy('name'),
+        collection(db, "restaurants"),
+        orderBy("name"),
         startAt(searchText),
         endAt(`${searchText}\uf8ff`),
         limit(20)
@@ -67,24 +74,28 @@ export function RestaurantsScreen(props) {
       setSearchResults(querySnapshot.docs);
     })();
   }, [searchText]);
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const auth = getAuth();
+  //   onAuthStateChanged(auth, (user) => {
+  //     setCurrentUser(user);
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const auth = getAuth();
+  //   onAuthStateChanged(auth, (user) => {
+  //     setCurrentUser(user);
+  //   });
+  // }, []);
   useEffect(() => {
     const q = query(
-      collection(db, 'restaurants'),
-      orderBy('createdAt', 'desc')
+      collection(db, "restaurants"),
+      orderBy("createdAt", "desc")
     );
+    // const querySnapshot = getDocs(q);
+    // const data = querySnapshot.docs.map((doc) => doc.data());
+    // setRestaurants(data);
+
     // onSnapshot(q, (snapshot) => {
     //   setRestaurants(snapshot.docs);
     //   console.log(
@@ -92,17 +103,20 @@ export function RestaurantsScreen(props) {
     //     snapshot.docs.map((doc) => doc.data())
     //   );
     // });
+    //aqui
     onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => doc.data());
 
       setRestaurants(data);
-      // console.log("restaurantsNUEVOS", data);
+      // console.log("restaurantsNUEVOSlenght", restaurants.lenght);
     });
   }, []);
+  console.log("restaurantsNUEVOS", restaurants);
 
   const goToAddRestaurant = () => {
     navigation.navigate(screen.restaurant.addRestaurant);
   };
+  console.log("restaurantsMain", restaurants);
 
   return (
     // check if currentUser is not null and if it is not null then show the icon
@@ -128,16 +142,22 @@ export function RestaurantsScreen(props) {
               MARGIN={MARGIN}
               SPACING_FOR_CARD_INSET={SPACING_FOR_CARD_INSET}
               HEIGHT={HEIGHT}
+              onReload={onReload}
+              updateRestaurants={updateRestaurants}
             />
           )}
         </>
       )}
+      <FilterRestaurants
+        updateRestaurants={updateRestaurants}
+        restaurants={restaurants}
+      />
 
       {/* {currentUser && (
         <Icon
           reverse
           type="material-community"
-          name="plus"
+          name="air-filter"
           color="#00a680"
           containerStyle={styles.btnContainer}
           onPress={goToAddRestaurant}

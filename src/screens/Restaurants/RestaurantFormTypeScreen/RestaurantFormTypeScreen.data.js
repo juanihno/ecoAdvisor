@@ -5,6 +5,7 @@ import "yup-phone-lite";
 export function initialValues() {
   return {
     BusinessType: "Restaurant",
+    userId: "",
     RestaurantType: "",
     coffee: {
       DiscountForUsingOwncup: false,
@@ -60,6 +61,7 @@ export function initialValues() {
 export function validationSchema() {
   return Yup.object().shape({
     BusinessType: Yup.string(),
+    userId: Yup.string(),
     RestaurantType: Yup.string().required("Restaurant type is required"),
     coffee: Yup.object({
       DiscountForUsingOwncup: Yup.boolean(),

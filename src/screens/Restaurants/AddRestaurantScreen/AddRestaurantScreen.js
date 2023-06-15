@@ -10,8 +10,12 @@ import { Button } from "react-native-elements";
 import { useFormik } from "formik";
 import { initialValues, validationSchema } from "./AddRestaurantScreen.data";
 import { screen } from "../../../utils";
+import { auth, getAuth, onAuthStateChanged } from "firebase/auth";
 
 export function AddRestaurantScreen(props) {
+  // const auth = getAuth();
+  // const userId = auth.currentUser.uid;
+
   const { navigation } = props;
   const goToEcoForm = () => {
     navigation.navigate(screen.restaurant.businessTypeForm, {
@@ -45,7 +49,7 @@ export function AddRestaurantScreen(props) {
       <Button
         title="Next"
         buttonStyle={styles.addRestaurant}
-        onPress={goToEcoForm}
+        onPress={formik.handleSubmit}
       />
     </ScrollView>
   );
