@@ -50,21 +50,85 @@ export function FilterRestaurants(props) {
     setVegetarianIsEnabled(false);
     // onCloseOpenModal();
   };
+  // make a diferent query depending on the filters selected by the user and update the restaurants state with the new restaurants that match the filters selected by the user and close the modal with the filters options when the user clicks on the apply filters button in the modal component and call the getRestaurants function  to get the restaurants that match the filters selected by the user and update the restaurants state with the new restaurants that match the filters selected by the user  and close the modal with the filters options when the user clicks on the apply filters button in the modal component   and call the getRestaurants function  to get the restaurants that match the filters selected by the user and update the restaurants state with the new restaurants that match the filters selected by the user  and close the modal with the filters options when the user clicks on the apply filters button in the modal component  and call the getRestaurants function  to get the restaurants that match the filters selected by the user and update the restaurants state with the new restaurants that match the filters selected by the user  and close the modal with the filters options when the user clicks on the apply filters button in the modal component and call the getRestaurants function  to get the restaurants that match the filters selected by the user and update the restaurants state with the new restaurants that match the filters selected by the user  and close the modal with the filters options when the user clicks on the apply filters button in the modal component and call the getRestaurants function  to get the restaurants that match the filters selected by the user and update the restaurants state with the new restaurants that match the filters selected by the user  and close the modal with the filters options when the user clicks on the apply filters button in the modal component and call the getRestaurants function  to get the restaurants that match the filters selected by the user and update the restaurants state with the new restaurants that match the filters selected by the user  and close the modal with the filters options when the user clicks on the apply filters button in the modal componen
+  // const getRestaurants = async () => {
+  //   try {
+  //     const q = query(
+  //       collection(db, "restaurants"),
+  //       filters.restaurants && filters.shops
+  //         ? where("BusinessType", "in", ["Restaurant", "Shop"])
+  //         : filters.restaurants
+  //         ? where("BusinessType", "==", "Restaurant")
+  //         : filters.shops
+  //         ? where("BusinessType", "==", "Shop")
+  //         : null,
+  //       filters.vegan && filters.vegetarian
+  //         ? where("vegan", "==", true)
+  //         : filters.vegan
+  //         ? where("vegan", "==", true)
+  //         : filters.vegetarian
+  //         ? where("vegetarian", "==", true)
+  //         : null
+  //     );
+  //     const result = await getDocs(q);
+  //     const restaurants = [];
+  //     result.forEach((doc) => {
+  //       restaurants.push({ ...doc.data(), id: doc.id });
+  //     });
+  //     updateRestaurants(restaurants);
+  //     console.log("size restaurants", restaurants.length);
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // };
+
   //make a call to firebase to get the restaurants that match the filters selected by the user
   const getRestaurants = async () => {
     try {
       const q = query(
         collection(db, "restaurants"),
-        // filters.restaurants ? where("BusinessType", "==", "Restaurant") : null,
-        // filters.shops ? where("BusinessType", "==", "Shop") : null
+        filters.restaurants &&
+          !filters.shops &&
+          !filters.vegan &&
+          !filters.vegetarian
+          ? where("BusinessType", "==", "Restaurant")
+          : filters.shops &&
+            !filters.restaurants &&
+            !filters.vegan &&
+            !filters.vegetarian
+          ? where("BusinessType", "==", "Shop")
+          : filters.restaurants &&
+            filters.shops &&
+            !filters.vegan &&
+            !filters.vegetarian
+          ? where("BusinessType", "in", ["Restaurant", "Shop"])
+          : !filters.restaurants &&
+            filters.shops &&
+            filters.vegan &&
+            !filters.vegetarian
+          ? where(
+              "BusinessType",
+              "==",
+              "Shop",
+              "FoodProducts",
+              "Fullyvegan",
+              "==",
+              true
+            )
+          : null
+
         // filters.vegan ? where("vegan", "==", filters.vegan) : null,
         // filters.vegetarian ? where("vegetarian", "==", "Shop") : null
         //   );
+        //       filters.restaurants && filters.shops
+
         // where("BusinessType", "==", "Restaurant")
-        where("BusinessType", "==", "Shop")
+        // where("BusinessType", "==", "Shop")
         // where("address", "==", "Dddd")
         //   where("vegetarian", "==", filters.vegetarian)
       );
+      console.log("q", q);
+
       const result = await getDocs(q);
       const restaurants = [];
       result.forEach((doc) => {
@@ -138,6 +202,22 @@ export function FilterRestaurants(props) {
                 circleActiveColor={"#FFFFFF"}
               />
             </View>
+            {restaurantsIsEnabled && (
+              <View style={styles.switch}>
+                <Text style={styles.text}>Veg</Text>
+                <Switch
+                  value={vegetarianIsEnabled}
+                  onValueChange={() => toggleSwitchVegetarian()}
+                  disabled={false}
+                  activeText={"yes"}
+                  inActiveText={"no"}
+                  backgroundInactive={"#ff0000"}
+                  backgroundActive={"#00a680"}
+                  circleInActiveColor={"#FFFFFF"}
+                  circleActiveColor={"#FFFFFF"}
+                />
+              </View>
+            )}
             <View style={styles.switch}>
               <Text style={styles.text}>Shops</Text>
               <Switch
@@ -166,7 +246,7 @@ export function FilterRestaurants(props) {
                 circleActiveColor={"#FFFFFF"}
               />
             </View>
-            <View style={styles.switch}>
+            {/* <View style={styles.switch}>
               <Text style={styles.text}>Vegetarian options</Text>
               <Switch
                 value={vegetarianIsEnabled}
@@ -179,7 +259,7 @@ export function FilterRestaurants(props) {
                 circleInActiveColor={"#FFFFFF"}
                 circleActiveColor={"#FFFFFF"}
               />
-            </View>
+            </View> */}
             <View style={styles.mapAction}>
               <Button
                 title="Apply filters"

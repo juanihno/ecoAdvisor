@@ -18,6 +18,7 @@ import { LoadingModal } from "../../../components/Shared";
 import { Explore } from "../../../components/Restaurants/Explore";
 import { SearchBarExplore } from "../../../components/Restaurants/SearchBarExplore";
 import { FilterRestaurants } from "../../../components/Restaurants/FilterRestaurants";
+
 const ratio = 228 / 250;
 export const MARGIN = 5;
 export const { width, height } = Dimensions.get("window");
@@ -113,6 +114,39 @@ export function RestaurantsScreen(props) {
   }, []);
   console.log("restaurantsNUEVOS", restaurants);
 
+  // convert user location to geohash and query the restaurants collection for the restaurants in a radius of 5km from the user location and set the restaurants state to the restaurants returned from the query not implemented yet
+  // const getRestaurants = async () => {
+  //   const userLocation = await Location.getCurrentPositionAsync();
+  //   const { latitude, longitude } = userLocation.coords;
+  //   const userGeohash = geohashForLocation([latitude, longitude]);
+  //   const q = query(
+  //     collection(db, "restaurants"),
+  //     where("geohash", ">=", userGeohash.substring(0, 5)),
+  //     where("geohash", "<=", userGeohash.substring(0, 5) + "~")
+  //   );
+  //   const querySnapshot = await getDocs(q);
+  //   const data = querySnapshot.docs.map((doc) => doc.data());
+  //   setRestaurants(data);
+  // };
+  // useEffect(() => {
+  //   getRestaurants();
+  // }, []);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const location = await Location.getCurrentPositionAsync({});
+  //     const { latitude, longitude } = location.coords;
+  //     const geohash = Geohash.encode(latitude, longitude, 8);
+  //     const q = query(
+  //       collection(db, "restaurants"),
+  //       where("geohash", "==", geohash)
+  //     );
+  //     const querySnapshot = await getDocs(q);
+  //     const data = querySnapshot.docs.map((doc) => doc.data());
+  //     setRestaurants(data);
+  //   })();
+  // }, []);
+
   const goToAddRestaurant = () => {
     navigation.navigate(screen.restaurant.addRestaurant);
   };
@@ -142,16 +176,11 @@ export function RestaurantsScreen(props) {
               MARGIN={MARGIN}
               SPACING_FOR_CARD_INSET={SPACING_FOR_CARD_INSET}
               HEIGHT={HEIGHT}
-              onReload={onReload}
-              updateRestaurants={updateRestaurants}
             />
           )}
         </>
       )}
-      <FilterRestaurants
-        updateRestaurants={updateRestaurants}
-        restaurants={restaurants}
-      />
+      <FilterRestaurants updateRestaurants={updateRestaurants} />
 
       {/* {currentUser && (
         <Icon
