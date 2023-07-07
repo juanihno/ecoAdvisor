@@ -10,7 +10,11 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 20,
+  },
+  subText: {
+    fontSize: 16,
+    marginLeft: 20,
   },
 
   btnContainer: {
@@ -21,11 +25,21 @@ export const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.5,
   },
+  sView: {},
+
   switch: {
     flexDirection: "row",
     justifyContent: "space-between",
     margin: 10,
   },
+  optText: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginLeft: 20,
+    marginBottom: 10,
+    // color: "#00a680",
+  },
+
   switchRaw: {
     flexDirection: "row",
     justifyContent: "space-between",

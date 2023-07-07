@@ -1,0 +1,209 @@
+{
+  "restaurants": [
+    {
+      "id": 1,
+      "name": "Restaurants",
+      "dbValue": "BusinessType",
+      "value": "restaurant",
+      "checked": false,
+      "type": [
+        {
+          "id": 1,
+          "title": "Restaurant",
+          "dbValue": "RestaurantType",
+          "value": "restaurant",
+          "checked": false,
+          "filter": "restaurant"
+        },
+        {
+          "id": 2,
+          "title": "Cofee/Bakery",
+          "dbValue": "RestaurantType",
+          "value": "cofee/Bakery",
+          "checked": false,
+          "filter": "coofee"
+        }
+      ],
+      "options": [
+        {
+          "id": 1,
+          "title": "vegetarian",
+          "dbValue": "menu",
+          "value": "Fullyvegetarian",
+          "checked": false,
+          "filter": "vegetarian"
+        },
+
+        {
+          "id": 2,
+          "title": "vegan",
+          "dbValue": "menu",
+          "value": "Fullyvegan",
+          "checked": false,
+          "filter": "vegan"
+        },
+
+        {
+          "id": 3,
+          "title": "Discount for using own cup",
+          "dbValue": "coffee",
+          "value": "DiscountForUsingOwncup",
+          "checked": false,
+          "filter": "cup"
+        },
+        {
+          "id": 4,
+          "title": "Local food",
+          "dbValue": "menu",
+          "value": "LocalFood",
+          "checked": false,
+          "filter": "local"
+        },
+
+        {
+          "id": 5,
+          "title": "No plastic",
+          "dbValue": "waste",
+          "value": "FullyPlasticFree",
+          "checked": false,
+          "filter": "plastic"
+        },
+        {
+          "id": 6,
+          "title": "Renewable energy",
+          "dbValue": "supplier",
+          "value": "ReusableEnergy",
+          "checked": false,
+          "filter": "energy"
+        }
+      ]
+    }
+  ],
+  "shops": [
+    {
+      "id": 2,
+      "name": "Shops",
+      "dbValue": "BusinessType",
+      "value": "restaurant",
+      "checked": false,
+      "type": [
+        {
+          "id": 1,
+          "title": "Grocery/Supermarket",
+          "dbValue": "ShopType",
+          "value": "Grocery/Supermarket",
+          "checked": false,
+          "filter": "grocery"
+        },
+        {
+          "id": 2,
+          "title": "Pet",
+          "dbValue": "ShopType",
+          "value": "Pet",
+          "checked": false,
+          "filter": "pet"
+        },
+        {
+          "id": 3,
+          "title": "Clothing/Shoe",
+          "dbValue": "ShopType",
+          "value": "Clothing/Shoe",
+          "checked": false,
+          "filter": "clothing"
+        },
+        {
+          "id": 4,
+          "title": "Beauty/body care",
+          "dbValue": "ShopType",
+          "value": "Beauty/body care",
+          "checked": false,
+          "filter": "beauty"
+        },
+        {
+          "id": 5,
+          "title": "Cosmetic/make up",
+          "dbValue": "ShopType",
+          "value": "Cosmetic/make up",
+          "checked": false,
+          "filter": "cosmetic"
+        },
+        {
+          "id": 6,
+          "title": "Craft store",
+          "dbValue": "ShopType",
+          "value": "Craft store",
+          "checked": false,
+          "filter": "craft"
+        },
+        {
+          "id": 7,
+          "title": "Homeware",
+          "dbValue": "ShopType",
+          "value": "Homeware",
+          "checked": false,
+          "filter": "homeware"
+        },
+        {
+          "id": 8,
+          "title": "op Shop",
+          "dbValue": "ShopType",
+          "value": "op Shop",
+          "checked": false,
+          "filter": "op"
+        }
+      ],
+      "options": [
+        {
+          "id": 1,
+          "title": "vegetarian",
+          "dbValue": "menu",
+          "value": "Fullyvegetarian",
+          "checked": false
+        },
+
+        {
+          "id": 2,
+          "title": "vegan",
+          "dbValue": "menu",
+          "value": "Fullyvegan",
+          "checked": false,
+          "filter": "vegan"
+        },
+
+        {
+          "id": 3,
+          "title": "Discount for using own cup",
+          "dbValue": "coffee",
+          "value": "DiscountForUsingOwncup",
+          "checked": false,
+          "filter": "cup"
+        },
+        {
+          "id": 4,
+          "title": "Local food",
+          "dbValue": "menu",
+          "value": "LocalFood",
+          "checked": false,
+          "filter": "local"
+        },
+
+        {
+          "id": 5,
+          "title": "No plastic",
+          "dbValue": "waste",
+          "value": "FullyPlasticFree",
+          "checked": false,
+          "filter": "plastic"
+        },
+        {
+          "id": 6,
+          "title": "Renewable energy",
+          "dbValue": "supplier",
+          "value": "ReusableEnergy",
+          "checked": false,
+          "filter": "energy"
+        }
+      ]
+    }
+  ]
+}

@@ -13,7 +13,10 @@ import {
   startAt,
   endAt,
   limit,
+  where,
 } from "firebase/firestore";
+import * as Location from "expo-location";
+import { geohashForLocation } from "geofire-common";
 import { LoadingModal } from "../../../components/Shared";
 import { Explore } from "../../../components/Restaurants/Explore";
 import { SearchBarExplore } from "../../../components/Restaurants/SearchBarExplore";
@@ -46,12 +49,14 @@ export function RestaurantsScreen(props) {
   };
   const { navigation } = props;
   const [currentUser, setCurrentUser] = useState(null);
+  const [userLocation, setUserLocation] = useState(null);
   const [restaurants, setRestaurants] = useState();
   // console.log("restaurantsMain", restaurants.length);
   // const { width } = Dimensions.get("window");
   const [searchText, setSearchText] = useState("");
   const [transformedText, setTransformedText] = useState("");
   const [searchResults, setSearchResults] = useState(null);
+
   const autoCapitalizeText = (text) => {
     const newText = text
       .split(" ")
@@ -61,6 +66,7 @@ export function RestaurantsScreen(props) {
       .join(" ");
     setSearchText(newText);
   };
+
   useEffect(() => {
     (async () => {
       const q = query(
@@ -88,49 +94,49 @@ export function RestaurantsScreen(props) {
   //     setCurrentUser(user);
   //   });
   // }, []);
-  useEffect(() => {
-    const q = query(
-      collection(db, "restaurants"),
-      orderBy("createdAt", "desc")
-    );
-    // const querySnapshot = getDocs(q);
-    // const data = querySnapshot.docs.map((doc) => doc.data());
-    // setRestaurants(data);
-
-    // onSnapshot(q, (snapshot) => {
-    //   setRestaurants(snapshot.docs);
-    //   console.log(
-    //     "restaurants",
-    //     snapshot.docs.map((doc) => doc.data())
-    //   );
-    // });
-    //aqui
-    onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => doc.data());
-
-      setRestaurants(data);
-      // console.log("restaurantsNUEVOSlenght", restaurants.lenght);
-    });
-  }, []);
-  console.log("restaurantsNUEVOS", restaurants);
-
-  // convert user location to geohash and query the restaurants collection for the restaurants in a radius of 5km from the user location and set the restaurants state to the restaurants returned from the query not implemented yet
-  // const getRestaurants = async () => {
-  //   const userLocation = await Location.getCurrentPositionAsync();
-  //   const { latitude, longitude } = userLocation.coords;
-  //   const userGeohash = geohashForLocation([latitude, longitude]);
+  // useEffect(() => {
   //   const q = query(
   //     collection(db, "restaurants"),
-  //     where("geohash", ">=", userGeohash.substring(0, 5)),
-  //     where("geohash", "<=", userGeohash.substring(0, 5) + "~")
+  //     orderBy("createdAt", "desc")
   //   );
-  //   const querySnapshot = await getDocs(q);
-  //   const data = querySnapshot.docs.map((doc) => doc.data());
-  //   setRestaurants(data);
-  // };
-  // useEffect(() => {
-  //   getRestaurants();
+  //   // const querySnapshot = getDocs(q);
+  //   // const data = querySnapshot.docs.map((doc) => doc.data());
+  //   // setRestaurants(data);
+
+  //   // onSnapshot(q, (snapshot) => {
+  //   //   setRestaurants(snapshot.docs);
+  //   //   console.log(
+  //   //     "restaurants",
+  //   //     snapshot.docs.map((doc) => doc.data())
+  //   //   );
+  //   // });
+  //   //aqui
+  //   onSnapshot(q, (snapshot) => {
+  //     const data = snapshot.docs.map((doc) => doc.data());
+
+  //     setRestaurants(data);
+  //     // console.log("restaurantsNUEVOSlenght", restaurants.lenght);
+  //   });
   // }, []);
+  // console.log("restaurantsNUEVOS", restaurants);
+
+  // convert user location to geohash and query the restaurants collection for the restaurants in a radius of 5km from the user location and set the restaurants state to the restaurants returned from the query not implemented yet
+  const getRestaurants = async () => {
+    const userLocation = await Location.getCurrentPositionAsync();
+    const { latitude, longitude } = userLocation.coords;
+    const userGeohash = geohashForLocation([latitude, longitude]);
+    const q = query(
+      collection(db, "restaurants"),
+      where("geohash", ">=", userGeohash.substring(0, 5)),
+      where("geohash", "<=", userGeohash.substring(0, 5) + "~")
+    );
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map((doc) => doc.data());
+    setRestaurants(data);
+  };
+  useEffect(() => {
+    getRestaurants();
+  }, []);
 
   // useEffect(() => {
   //   (async () => {
@@ -166,18 +172,33 @@ export function RestaurantsScreen(props) {
             setSearchText={setSearchText}
           />
           {/* // <ListRestaurants restaurants={restaurants} /> */}
-          {!searchText && (
-            <Explore
-              restaurants={restaurants}
-              width={width}
-              height={height}
-              CARD_WIDTH={CARD_WIDTH}
-              CARD_HEIGHT={CARD_HEIGHT}
-              MARGIN={MARGIN}
-              SPACING_FOR_CARD_INSET={SPACING_FOR_CARD_INSET}
-              HEIGHT={HEIGHT}
-            />
-          )}
+          {!searchText &&
+            // if restaurants.lenght is 0 then show the text no results found else show the Explore component
+            (restaurants.length === 0 ? (
+              <View>
+                <Icon
+                  type="material-community"
+                  name="alert"
+                  size={50}
+                  style={styles.icon}
+                />
+                <Text style={styles.text}>Sorry, no business around you</Text>
+                <Text style={styles.subText}>
+                  Apply some filters to see more
+                </Text>
+              </View>
+            ) : (
+              <Explore
+                restaurants={restaurants}
+                width={width}
+                height={height}
+                CARD_WIDTH={CARD_WIDTH}
+                CARD_HEIGHT={CARD_HEIGHT}
+                MARGIN={MARGIN}
+                SPACING_FOR_CARD_INSET={SPACING_FOR_CARD_INSET}
+                HEIGHT={HEIGHT}
+              />
+            ))}
         </>
       )}
       <FilterRestaurants updateRestaurants={updateRestaurants} />

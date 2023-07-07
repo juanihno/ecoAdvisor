@@ -11,6 +11,7 @@ import { db } from "../../../utils/firebase";
 import Toast from "react-native-toast-message";
 import { Modal } from "../../../components/Shared";
 import { styles } from "./MapFormAccount.styles";
+import { geohashForLocation } from "geofire-common";
 export function MapFormAccount(props) {
   const { show, close, locationMap, restaurantId, getRestaurantData } = props;
   //   const [location, setLocation] = useState({
@@ -20,6 +21,8 @@ export function MapFormAccount(props) {
   //     longitudeDelta: 0.001,
   //   });
   const [location, setLocation] = useState(locationMap);
+  const [geohash, setGeohash] = useState("");
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -38,7 +41,12 @@ export function MapFormAccount(props) {
         latitudeDelta: 0.001,
         longitudeDelta: 0.001,
       });
-
+      setGeohash(
+        geohashForLocation([
+          locationTemp.coords.latitude,
+          locationTemp.coords.longitude,
+        ])
+      );
       console.log(locationTemp);
     })();
   }, []);
@@ -51,7 +59,7 @@ export function MapFormAccount(props) {
   const saveLocation = async () => {
     try {
       const docRef = doc(db, "restaurants", restaurantId);
-      await updateDoc(docRef, { location });
+      await updateDoc(docRef, { location, geohash: geohash });
       Toast.show({
         type: "success",
         position: "bottom",

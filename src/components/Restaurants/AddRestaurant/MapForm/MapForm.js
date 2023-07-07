@@ -9,6 +9,7 @@ import { Marker } from "react-native-maps";
 import Toast from "react-native-toast-message";
 import { Modal } from "../../../Shared";
 import { styles } from "./MapForm.styles";
+import { geohashForLocation } from "geofire-common";
 export function MapForm(props) {
   const { show, close, formik } = props;
   const [location, setLocation] = useState({
@@ -17,6 +18,8 @@ export function MapForm(props) {
     latitudeDelta: 0.001,
     longitudeDelta: 0.001,
   });
+  const [geohash, setGeohash] = useState("");
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -35,12 +38,29 @@ export function MapForm(props) {
         latitudeDelta: 0.001,
         longitudeDelta: 0.001,
       });
+      setGeohash(
+        geohashForLocation([
+          locationTemp.coords.latitude,
+          locationTemp.coords.longitude,
+        ])
+      );
 
-      console.log(locationTemp);
+      console.log("LOCATIONTEMP", locationTemp);
     })();
   }, []);
   const saveLocation = () => {
     formik.setFieldValue("location", location);
+    // close();
+  };
+  const saveGeoHash = () => {
+    formik.setFieldValue("geohash", geohash);
+    console.log("GEOHASH", geohash);
+
+    // close();
+  };
+  const addLocationAndGeoHash = () => {
+    saveLocation();
+    saveGeoHash();
     close();
   };
 
@@ -59,7 +79,7 @@ export function MapForm(props) {
           title="Save"
           containerStyle={styles.btnMapContainerSave}
           buttonStyle={styles.btnMapSave}
-          onPress={saveLocation}
+          onPress={addLocationAndGeoHash}
         />
         <Button
           title="Close"

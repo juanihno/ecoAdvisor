@@ -168,6 +168,7 @@ export function Explore(props) {
   return (
     <View style={styles.container}>
       <MapView
+        showsUserLocation={true}
         ref={_map}
         initialRegion={state.region}
         style={styles.container}

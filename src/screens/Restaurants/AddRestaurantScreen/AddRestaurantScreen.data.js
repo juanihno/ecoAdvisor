@@ -11,6 +11,7 @@ export function initialValues() {
     email: "",
     description: "",
     location: null,
+    geohash: null,
     images: [],
   };
 }
@@ -26,6 +27,7 @@ export function validationSchema() {
     //   .required("Restaurant email is required"),
     description: Yup.string().required("Business description is required"),
     location: Yup.object().required("Business location is required"),
+    geohash: Yup.string().required("Business geohash is required"),
     images: Yup.array()
       .min(1, "You must upload at least one image")
       .required("You must upload at least one image"),
