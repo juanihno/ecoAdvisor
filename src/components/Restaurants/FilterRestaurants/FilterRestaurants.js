@@ -17,6 +17,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../utils";
 export function FilterRestaurants(props) {
+  // useeffect to console.log("NEWDATA", newData) everytime the value of newData changes
+
   const { updateRestaurants } = props;
   const [filters, setFilters] = useState({
     restaurants: false,
@@ -79,6 +81,12 @@ export function FilterRestaurants(props) {
   console.log("DATAUSE", newData);
   console.log("newDataTypeFiltersRes", restaurantTypeFilter);
   console.log("newDataTypeFiltersShop", shopTypeFilter);
+  useEffect(() => {
+    console.log(
+      "NEWDATA",
+      newData.restaurants.map((item) => item.type.map((type) => type.checked))
+    );
+  }, [newData]);
 
   const onChangeSwitch = (id) => {
     {
@@ -339,43 +347,53 @@ export function FilterRestaurants(props) {
   };
   const applyFilters = async () => {
     // create a dynamic query so foreach restauant in the array of objects Data.restaurants if the value of checked is true then add the filter to the query
-    const collectionRef = collection(db, "restaurants");
-    const q = collectionRef;
-    console.log("q", q);
-    //foreach data.restaurants.type if the value of checked is true then add the filter to the query
+    // const collectionRef = collection(db, "restaurants");
+    // const q = collectionRef;
+    // console.log("q", q);
+    // const query = query(
+    //   collectionRef,
+    //   where("BusinessType", "==", "Restaurant")
+    // );
+    // const q = query(collection(db, "restaurants"));
+    // const qTwo = null;
+    // foreach data.restaurants.type if the value of checked is true then add the filter to the query
+    const constraints = [];
     Data.restaurants.map((item) => {
       if (item.checked) {
-        // push the filter to the query if the value of checked is true
-        // q.where("BusinessType", "==", item.filter);
-        //do the query
+        // qTwo = query(q, where("BusinessType", "==", [item.value]));
+        // console.log("qTwo", qTwo);
+        constraints.push(where("BusinessType", "==", item.value));
       }
       item.type.map((type) => {
         if (type.checked) {
-          q.where("RestaurantType", "==", type.filter);
+          constraints.push(where("RestaurantType", "==", type.value));
         }
       });
       item.options.map((options) => {
         if (options.checked) {
-          q.where("menu", "==", options.filter);
+          constraints.push(where(options.value, "==", true));
         }
       });
     });
     Data.shops.map((item) => {
       if (item.checked) {
-        q.where("BusinessType", "==", item.filter);
+        constraints.push(where("BusinessType", "==", item.value));
       }
       item.type.map((type) => {
         if (type.checked) {
-          q.where("BusinessType", "==", type.filter);
+          constraints.push(where("ShopType", "==", type.value));
         }
       });
       item.options.map((options) => {
         if (options.checked) {
-          q.where("BusinessType", "==", options.filter);
+          constraints.push(where(options.value, "==", true));
+          // q.where("BusinessType", "==", options.filter);
         }
       });
     });
-    console.log("q", q);
+    // console.log("q", qTwo);
+    const q = query(collection(db, "restaurants"), ...constraints);
+    console.log("constraints", q);
 
     const result = await getDocs(q);
     const restaurants = [];
