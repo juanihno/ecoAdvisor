@@ -10,16 +10,24 @@ import {
   collection,
   query,
   where,
+  or,
+  and,
   orderBy,
   deleteDoc,
   getDocs,
   getDoc,
 } from "firebase/firestore";
 import { db } from "../../../utils";
+import { array, string } from "yup";
 export function FilterRestaurants(props) {
   // useeffect to console.log("NEWDATA", newData) everytime the value of newData changes
 
   const { updateRestaurants } = props;
+  const [constraints, setConstraints] = useState([]);
+  const [busConstraints, setBusConstraints] = useState([]);
+  const [typeConstraints, setTypeConstraints] = useState([]);
+  const [oopConstraints, setOopConstraints] = useState([]);
+
   const [filters, setFilters] = useState({
     restaurants: false,
     shops: false,
@@ -55,28 +63,14 @@ export function FilterRestaurants(props) {
     renewable: false,
   });
 
-  // change value of checked to the object with the same item.id when the user clicks on the switch in the filter component
-
-  //   console.log("setRestaurants", setRestaurants);
-  // const [filters, setFilters] = useState({
-  //   restaurants: false,
-  //   restaurant: false,
-  //   coofee: false,
-  //   shops: false,
-  //   vegan: false,
-  //   vegetarian: false,
-  // });
-
   const filterChange = (value, filterName) => {
     setFilters({ ...filters, [filterName]: value });
-    // console.log("onChangeSwitch", filters);
   };
   const filterChangeType = (value, filterName, type) => {
     if (filterName === type.filter) {
       setRestaurantTypeFilter({ ...restaurantTypeFilter, [filterName]: value });
     }
   };
-  //create function to change the value of checked in the the array of objects Data.restaurants to the opposite value when the user clicks on the switch in the filter component  and call the function onChangeSwitch to change the value of the switch in the filter component
   const [newData, setNewData] = useState(Data);
   console.log("DATAUSE", newData);
   console.log("newDataTypeFiltersRes", restaurantTypeFilter);
@@ -106,7 +100,6 @@ export function FilterRestaurants(props) {
     }
     setNewData({ ...newData });
     console.log("newDataFilters", filters);
-    // console.log("newData", newData);
   };
   const onChangeSwitchType = (id, idTwo) => {
     {
@@ -342,57 +335,73 @@ export function FilterRestaurants(props) {
       plastic: false,
       renewable: false,
     });
+    setConstraints([]);
+    setBusConstraints([]);
+    setTypeConstraints([]);
+    setOopConstraints([]);
     setNewData({ ...newData });
-    // setNewData(Data);
   };
   const applyFilters = async () => {
-    // create a dynamic query so foreach restauant in the array of objects Data.restaurants if the value of checked is true then add the filter to the query
-    // const collectionRef = collection(db, "restaurants");
-    // const q = collectionRef;
-    // console.log("q", q);
-    // const query = query(
-    //   collectionRef,
-    //   where("BusinessType", "==", "Restaurant")
-    // );
-    // const q = query(collection(db, "restaurants"));
-    // const qTwo = null;
-    // foreach data.restaurants.type if the value of checked is true then add the filter to the query
-    const constraints = [];
     Data.restaurants.map((item) => {
       if (item.checked) {
-        // qTwo = query(q, where("BusinessType", "==", [item.value]));
-        // console.log("qTwo", qTwo);
-        constraints.push(where("BusinessType", "==", item.value));
+        busConstraints.push(where("BusinessType", "==", item.value));
       }
       item.type.map((type) => {
         if (type.checked) {
-          constraints.push(where("RestaurantType", "==", type.value));
+          typeConstraints.push(where("RestaurantType", "==", type.value));
         }
       });
       item.options.map((options) => {
         if (options.checked) {
-          constraints.push(where(options.value, "==", true));
+          oopConstraints.push(where(options.dbValue, "==", true));
         }
       });
     });
     Data.shops.map((item) => {
       if (item.checked) {
-        constraints.push(where("BusinessType", "==", item.value));
+        busConstraints.push(where("BusinessType", "==", item.value));
+        console.log("busConstraints", busConstraints);
       }
       item.type.map((type) => {
         if (type.checked) {
-          constraints.push(where("ShopType", "==", type.value));
+          typeConstraints.push(where("ShopType", "==", type.value));
+          console.log("typeConstraints", typeConstraints);
         }
       });
       item.options.map((options) => {
         if (options.checked) {
-          constraints.push(where(options.value, "==", true));
-          // q.where("BusinessType", "==", options.filter);
+          oopConstraints.push(where(options.dbValue, "==", true));
+          console.log("oopConstraints", oopConstraints);
         }
       });
     });
-    // console.log("q", qTwo);
-    const q = query(collection(db, "restaurants"), ...constraints);
+
+    const q = query(
+      collection(db, "restaurants"),
+
+      and(
+        or(...busConstraints),
+        or(...typeConstraints),
+        or(...oopConstraints)
+        // or(
+        //   or(
+        //     // where("BusinessType", "==", "Restaurant"),
+        //     where("BusinessType", "==", "Shop")
+        //   ),
+
+        //   or(
+        //     // where("RestaurantType", "==", "restaurant"),
+        //     where("RestaurantType", "==", "cofee/Bakery")
+        //     // where("ShopType", "==", "Grocery/Supermarket")
+        //   ),
+        //   or(
+        //     where("menu.FullyVegan", "==", true),
+        //     where("FoodProducts.FullyVegetarian", "==", true)
+        //   )
+        // )
+      )
+    );
+
     console.log("constraints", q);
 
     const result = await getDocs(q);
@@ -401,6 +410,11 @@ export function FilterRestaurants(props) {
       restaurants.push({ ...doc.data(), id: doc.id });
     });
     updateRestaurants(restaurants);
+    setConstraints([]);
+    setBusConstraints([]);
+    setTypeConstraints([]);
+    setOopConstraints([]);
+
     console.log("size restaurants", restaurants.length);
   };
 
@@ -477,102 +491,8 @@ export function FilterRestaurants(props) {
     }
   };
 
-  // const [restaurantsIsEnabled, setRestaurantsIsEnabled] = useState(false);
-  // const toggleSwitchRestaurants = () => {
-  //   setRestaurantsIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!restaurantsIsEnabled, "restaurants");
-  // };
-  // const [restaurantIsEnabled, setRestaurantIsEnabled] = useState(false);
-  // const toggleSwitchRestaurant = () => {
-  //   setRestaurantIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!restaurantIsEnabled, "restaurant");
-  // };
-  // const [coofeeIsEnabled, setCoofeeIsEnabled] = useState(false);
-  // const toggleSwitchCoofee = () => {
-  //   setCoofeeIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!coofeeIsEnabled, "coofee");
-  // };
-  // //do const and togleSwitch for Discount for using own cup, Local food, No plastic, Renewable energy, everything at once please
-  // const [discountIsEnabled, setDiscountIsEnabled] = useState(false);
-  // const toggleSwitchDiscount = () => {
-  //   setDiscountIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!discountIsEnabled, "discount");
-  // };
-  // const [localIsEnabled, setLocalIsEnabled] = useState(false);
-  // const toggleSwitchLocal = () => {
-  //   setLocalIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!localIsEnabled, "local");
-  // };
-  // const [plasticIsEnabled, setPlasticIsEnabled] = useState(false);
-  // const toggleSwitchPlastic = () => {
-  //   setPlasticIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!plasticIsEnabled, "plastic");
-  // };
-  // const [renewableIsEnabled, setRenewableIsEnabled] = useState(false);
-  // const toggleSwitchRenewable = () => {
-  //   setRenewableIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!renewableIsEnabled, "renewable");
-  // };
-
-  // const [veganIsEnabled, setVeganIsEnabled] = useState(false);
-  // const toggleSwitchVegan = () => {
-  //   setVeganIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!veganIsEnabled, "vegan");
-  // };
-  // const [vegetarianIsEnabled, setVegetarianIsEnabled] = useState(false);
-  // const toggleSwitchVegetarian = () => {
-  //   setVegetarianIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!vegetarianIsEnabled, "vegetarian");
-  // };
-
-  // const [shopsIsEnabled, setShopsIsEnabled] = useState(false);
-  // const toggleSwitchShops = () => {
-  //   setShopsIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!shopsIsEnabled, "shops");
-  // };
-
-  // //do const and togleSwitch for grocery, pet, beauty, cosmetic, craft, homeware and op
-  // const [groceryIsEnabled, setGroceryIsEnabled] = useState(false);
-  // const toggleSwitchGrocery = () => {
-  //   setGroceryIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!groceryIsEnabled, "grocery");
-  // };
-  // const [petIsEnabled, setPetIsEnabled] = useState(false);
-  // const toggleSwitchPet = () => {
-  //   setPetIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!petIsEnabled, "pet");
-  // };
-  // const [beautyIsEnabled, setBeautyIsEnabled] = useState(false);
-  // const toggleSwitchBeauty = () => {
-  //   setBeautyIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!beautyIsEnabled, "beauty");
-  // };
-  // const [cosmeticIsEnabled, setCosmeticIsEnabled] = useState(false);
-  // const toggleSwitchCosmetic = () => {
-  //   setCosmeticIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!cosmeticIsEnabled, "cosmetic");
-  // };
-  // const [craftIsEnabled, setCraftIsEnabled] = useState(false);
-  // const toggleSwitchCraft = () => {
-  //   setCraftIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!craftIsEnabled, "craft");
-  // };
-
-  // const [homewareIsEnabled, setHomewareIsEnabled] = useState(false);
-  // const toggleSwitchHomeware = () => {
-  //   setHomewareIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!homewareIsEnabled, "homeware");
-  // };
-  // const [opIsEnabled, setOpIsEnabled] = useState(false);
-  // const toggleSwitchOp = () => {
-  //   setOpIsEnabled((previousState) => !previousState);
-  //   onChangeSwitch(!opIsEnabled, "op");
-  // };
-
   const [showModal, setShowModal] = useState(false);
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
-  //   const [filtersArray, setFiltersArray] = useState([]);
-  // console.log("onChangeSwitch", filters);
 
   return (
     <>
@@ -596,7 +516,6 @@ export function FilterRestaurants(props) {
                         <Text style={styles.text}>{item.name}</Text>
                         <Switch
                           value={item.checked}
-                          // {bussiness.coffee[item.value]}
                           onValueChange={() => onChangeSwitch(item.id)}
                           disabled={false}
                           color="#00a680"
@@ -672,7 +591,6 @@ export function FilterRestaurants(props) {
                         <Text style={styles.text}>{item.name}</Text>
                         <Switch
                           value={item.checked}
-                          // {bussiness.coffee[item.value]}
                           onValueChange={() => onChangeSwitch()}
                           disabled={false}
                           color="#00a680"
@@ -749,14 +667,14 @@ export function FilterRestaurants(props) {
                 containerStyle={styles.btnMapContainerSave}
                 buttonStyle={styles.btnMapSave}
                 onPress={applyFilters}
-                //   onPress={saveLocation}
+                disabled={!filters.restaurants && !filters.shops}
               />
               <Button
                 title="Clear all"
                 containerStyle={styles.btnMapContainerClose}
                 buttonStyle={styles.btnMapClose}
                 onPress={clearAll}
-                //   onPress={close}
+                disabled={!filters.restaurants && !filters.shops}
               />
             </View>
           </>

@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Restaurants",
       "dbValue": "BusinessType",
-      "value": "restaurant",
+      "value": "Restaurant",
       "checked": false,
       "type": [
         {
@@ -28,7 +28,7 @@
         {
           "id": 1,
           "title": "vegetarian",
-          "dbValue": "menu",
+          "dbValue": "menu.FullyVegetarian",
           "value": "Fullyvegetarian",
           "checked": false,
           "filter": "vegetarian"
@@ -37,7 +37,7 @@
         {
           "id": 2,
           "title": "vegan",
-          "dbValue": "menu",
+          "dbValue": "menu.FullyVegan",
           "value": "Fullyvegan",
           "checked": false,
           "filter": "vegan"
@@ -46,7 +46,7 @@
         {
           "id": 3,
           "title": "Discount for using own cup",
-          "dbValue": "coffee",
+          "dbValue": "coffee.DiscountForUsingOwncup",
           "value": "DiscountForUsingOwncup",
           "checked": false,
           "filter": "cup"
@@ -54,7 +54,7 @@
         {
           "id": 4,
           "title": "Local food",
-          "dbValue": "menu",
+          "dbValue": "menu.LocalFood",
           "value": "LocalFood",
           "checked": false,
           "filter": "local"
@@ -63,7 +63,7 @@
         {
           "id": 5,
           "title": "No plastic",
-          "dbValue": "waste",
+          "dbValue": "waste.FullyPlasticFree",
           "value": "FullyPlasticFree",
           "checked": false,
           "filter": "plastic"
@@ -71,7 +71,7 @@
         {
           "id": 6,
           "title": "Renewable energy",
-          "dbValue": "supplier",
+          "dbValue": "supplier.ReusableEnergy",
           "value": "ReusableEnergy",
           "checked": false,
           "filter": "energy"
@@ -84,7 +84,7 @@
       "id": 2,
       "name": "Shops",
       "dbValue": "BusinessType",
-      "value": "restaurant",
+      "value": "Shop",
       "checked": false,
       "type": [
         {
@@ -156,7 +156,7 @@
         {
           "id": 1,
           "title": "vegetarian",
-          "dbValue": "menu",
+          "dbValue": "FoodProducts.Fullyvegetarian",
           "value": "Fullyvegetarian",
           "checked": false
         },
@@ -164,7 +164,7 @@
         {
           "id": 2,
           "title": "vegan",
-          "dbValue": "menu",
+          "dbValue": "FoodProducts.Fullyvegan",
           "value": "Fullyvegan",
           "checked": false,
           "filter": "vegan"
@@ -173,7 +173,7 @@
         {
           "id": 3,
           "title": "Discount for using own cup",
-          "dbValue": "coffee",
+          "dbValue": "coffee.DiscountForUsingOwncup",
           "value": "DiscountForUsingOwncup",
           "checked": false,
           "filter": "cup"
@@ -181,8 +181,8 @@
         {
           "id": 4,
           "title": "Local food",
-          "dbValue": "menu",
-          "value": "LocalFood",
+          "dbValue": "FoodProducts.LocalFoodProducts",
+          "value": "LocalFoodProducts",
           "checked": false,
           "filter": "local"
         },
@@ -190,7 +190,7 @@
         {
           "id": 5,
           "title": "No plastic",
-          "dbValue": "waste",
+          "dbValue": "waste.FullyPlasticFree",
           "value": "FullyPlasticFree",
           "checked": false,
           "filter": "plastic"
@@ -198,7 +198,7 @@
         {
           "id": 6,
           "title": "Renewable energy",
-          "dbValue": "supplier",
+          "dbValue": "supplier.ReusableEnergy",
           "value": "ReusableEnergy",
           "checked": false,
           "filter": "energy"
