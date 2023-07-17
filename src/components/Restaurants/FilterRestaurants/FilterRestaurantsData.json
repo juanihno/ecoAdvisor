@@ -157,7 +157,7 @@
           "id": 1,
           "title": "vegetarian",
           "dbValue": "FoodProducts.Fullyvegetarian",
-          "value": "Fullyvegetarian",
+          "value": "FullyVegetarian",
           "checked": false
         },
 
@@ -165,7 +165,7 @@
           "id": 2,
           "title": "vegan",
           "dbValue": "FoodProducts.Fullyvegan",
-          "value": "Fullyvegan",
+          "value": "FullyVegan",
           "checked": false,
           "filter": "vegan"
         },

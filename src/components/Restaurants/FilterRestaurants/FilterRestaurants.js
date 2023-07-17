@@ -20,9 +20,9 @@ import {
 import { db } from "../../../utils";
 import { array, string } from "yup";
 export function FilterRestaurants(props) {
-  // useeffect to console.log("NEWDATA", newData) everytime the value of newData changes
-
   const { updateRestaurants } = props;
+  const [showModal, setShowModal] = useState(false);
+  const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
   const [constraints, setConstraints] = useState([]);
   const [busConstraints, setBusConstraints] = useState([]);
   const [typeConstraints, setTypeConstraints] = useState([]);
@@ -75,12 +75,6 @@ export function FilterRestaurants(props) {
   console.log("DATAUSE", newData);
   console.log("newDataTypeFiltersRes", restaurantTypeFilter);
   console.log("newDataTypeFiltersShop", shopTypeFilter);
-  useEffect(() => {
-    console.log(
-      "NEWDATA",
-      newData.restaurants.map((item) => item.type.map((type) => type.checked))
-    );
-  }, [newData]);
 
   const onChangeSwitch = (id) => {
     {
@@ -380,26 +374,24 @@ export function FilterRestaurants(props) {
       collection(db, "restaurants"),
 
       and(
-        or(...busConstraints),
-        or(...typeConstraints),
-        or(...oopConstraints)
+        or(or(...busConstraints), or(...typeConstraints), or(...oopConstraints))
         // or(
         //   or(
-        //     // where("BusinessType", "==", "Restaurant"),
+        //     where("BusinessType", "==", "Restaurant"),
         //     where("BusinessType", "==", "Shop")
         //   ),
 
+        //   or(),
+        //   // where("RestaurantType", "==", "restaurant"),
+        //   // where("RestaurantType", "==", "cofee/Bakery")
+        //   // where("ShopType", "==", "Grocery/Supermarket")
         //   or(
-        //     // where("RestaurantType", "==", "restaurant"),
-        //     where("RestaurantType", "==", "cofee/Bakery")
-        //     // where("ShopType", "==", "Grocery/Supermarket")
-        //   ),
-        //   or(
-        //     where("menu.FullyVegan", "==", true),
+        //     // where("menu.FullyVegan", "==", true),
         //     where("FoodProducts.FullyVegetarian", "==", true)
         //   )
         // )
       )
+      // orderBy("geohash")
     );
 
     console.log("constraints", q);
@@ -414,6 +406,7 @@ export function FilterRestaurants(props) {
     setBusConstraints([]);
     setTypeConstraints([]);
     setOopConstraints([]);
+    onCloseOpenModal();
 
     console.log("size restaurants", restaurants.length);
   };
@@ -490,9 +483,6 @@ export function FilterRestaurants(props) {
       console.log("error", error);
     }
   };
-
-  const [showModal, setShowModal] = useState(false);
-  const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
 
   return (
     <>
