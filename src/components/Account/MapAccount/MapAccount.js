@@ -30,7 +30,7 @@ export function MapAccount(props) {
         //   showsMyLocationButton={false}
         //   showsCompass={false}
         // zoomEnabled={false}
-        // scrollEnabled={false}
+        scrollEnabled={false}
         onPress={onOpenCloseMap}
       >
         <Marker coordinate={location} title={name} />

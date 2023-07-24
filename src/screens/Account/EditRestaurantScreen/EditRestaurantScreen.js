@@ -127,8 +127,8 @@ export function EditRestaurantScreen(props) {
       <>
         <Button
           title="Delete bussines"
-          containerStyle={styles.btnMapContainerClose}
-          style={styles.btnMapClose}
+          // containerStyle={styles.btnMapContainerClose}
+          buttonStyle={styles.btnMapClose}
           onPress={DeleteBussiness}
         />
       </>

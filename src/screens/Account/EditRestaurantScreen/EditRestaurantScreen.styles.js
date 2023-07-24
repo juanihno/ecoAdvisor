@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
     width: "100%",
     // backgroundColor: "#a60d0d",
   },
-  btn: {
-    backgroundColor: "#a60d0d",
+  btnMapClose: {
+    backgroundColor: "red",
+    margin: 20,
   },
 });

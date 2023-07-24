@@ -127,8 +127,9 @@ export function RestaurantsScreen(props) {
     const userGeohash = geohashForLocation([latitude, longitude]);
     const q = query(
       collection(db, "restaurants"),
-      where("geohash", ">=", userGeohash.substring(0, 5)),
+      // where("geohash", ">=", userGeohash.substring(0, 5)),
       where("geohash", "<=", userGeohash.substring(0, 5) + "~")
+      // orderBy("geohash", "desc")
     );
     const querySnapshot = await getDocs(q);
     const data = querySnapshot.docs.map((doc) => doc.data());
