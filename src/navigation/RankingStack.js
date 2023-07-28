@@ -9,7 +9,7 @@ export function RankingStack() {
       <Stack.Screen
         name={screen.ranking.ranking}
         component={RankingScreen}
-        options={{ title: "Ranking" }}
+        options={{ title: "" }}
       />
     </Stack.Navigator>
   );
