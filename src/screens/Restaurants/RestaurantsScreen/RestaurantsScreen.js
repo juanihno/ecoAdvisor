@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Dimensions } from "react-native";
 import { Icon, Text } from "react-native-elements";
 import { styles } from "./RestaurantsScreen.styles";
 import { screen, db } from "../../../utils";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useFocusEffect } from "@react-navigation/core";
+
 import {
   collection,
   getDocs,
@@ -46,16 +48,25 @@ export function RestaurantsScreen(props) {
   // function changeRestaurant to change the restaurants state to pass as props to the filter component
   const updateRestaurants = (restaurants) => {
     setRestaurants(restaurants);
+    // console.log("restaurant size", restaurants.length);
   };
   const { navigation } = props;
   const [currentUser, setCurrentUser] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [restaurants, setRestaurants] = useState();
+  const [initialRestaurants, setInitialRestaurants] = useState();
   // console.log("restaurantsMain", restaurants.length);
   // const { width } = Dimensions.get("window");
   const [searchText, setSearchText] = useState("");
   const [transformedText, setTransformedText] = useState("");
   const [searchResults, setSearchResults] = useState(null);
+  const [location, setLocation] = useState({
+    latitude: 0.001,
+    longitude: 0.001,
+    latitudeDelta: 0.001,
+    longitudeDelta: 0.001,
+  });
+  const [geohash, setGeohash] = useState("");
 
   const autoCapitalizeText = (text) => {
     const newText = text
@@ -66,6 +77,60 @@ export function RestaurantsScreen(props) {
       .join(" ");
     setSearchText(newText);
   };
+  const getLocation = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Toast.show({
+        type: "info",
+        position: "button",
+        text1: "Go to settings and enable location permission for this app",
+      });
+      return;
+    }
+    const locationTemp = await Location.getCurrentPositionAsync({});
+    setLocation({
+      latitude: locationTemp.coords.latitude,
+      longitude: locationTemp.coords.longitude,
+      latitudeDelta: 0.001,
+      longitudeDelta: 0.001,
+    });
+    setGeohash(
+      geohashForLocation([
+        locationTemp.coords.latitude,
+        locationTemp.coords.longitude,
+      ])
+    );
+    console.log("LOCATIONTEMP", locationTemp);
+  };
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== "granted") {
+  //       Toast.show({
+  //         type: "info",
+  //         position: "button",
+  //         text1: "Go to settings and enable location permission for this app",
+  //       });
+  //       return;
+  //     }
+  //     const locationTemp = await Location.getCurrentPositionAsync({});
+  //     setLocation({
+  //       latitude: locationTemp.coords.latitude,
+  //       longitude: locationTemp.coords.longitude,
+  //       latitudeDelta: 0.001,
+  //       longitudeDelta: 0.001,
+  //     });
+  //     setGeohash(
+  //       geohashForLocation([
+  //         locationTemp.coords.latitude,
+  //         locationTemp.coords.longitude,
+  //       ])
+  //     );
+
+  //     console.log("LOCATIONTEMP", locationTemp);
+  //   })();
+  // }, []);
 
   useEffect(() => {
     (async () => {
@@ -122,22 +187,78 @@ export function RestaurantsScreen(props) {
 
   // convert user location to geohash and query the restaurants collection for the restaurants in a radius of 5km from the user location and set the restaurants state to the restaurants returned from the query not implemented yet
   const getRestaurants = async () => {
-    const userLocation = await Location.getCurrentPositionAsync();
-    const { latitude, longitude } = userLocation.coords;
-    const userGeohash = geohashForLocation([latitude, longitude]);
+    // const userLocation = await Location.getCurrentPositionAsync();
+    // const { latitude, longitude } = userLocation.coords;
+    // const userGeohash = geohashForLocation([latitude, longitude]);
+
+    // const { status } = await Location.requestForegroundPermissionsAsync();
+    // if (status !== "granted") {
+    //   Toast.show({
+    //     type: "info",
+    //     position: "button",
+    //     text1: "Go to settings and enable location permission for this app",
+    //   });
+    //   return;
+    // }
+    // const locationTemp = await Location.getCurrentPositionAsync({});
+    // setLocation({
+    //   latitude: locationTemp.coords.latitude,
+    //   longitude: locationTemp.coords.longitude,
+    //   latitudeDelta: 0.001,
+    //   longitudeDelta: 0.001,
+    // });
+    // setGeohash(
+    //   geohashForLocation([
+    //     locationTemp.coords.latitude,
+    //     locationTemp.coords.longitude,
+    //   ])
+    // );
+    // console.log("GEOHASH", geohash.substring(0, 4));
+
     const q = query(
       collection(db, "restaurants"),
-      // where("geohash", ">=", userGeohash.substring(0, 5)),
-      where("geohash", "<=", userGeohash.substring(0, 5) + "~")
+      where("geohash", ">=", geohash.substring(0, 4)),
+      where("geohash", "<=", geohash.substring(0, 4) + "~")
+      // where("geohash", "<=", geohash.substring(0, 5) + "~")
       // orderBy("geohash", "desc")
+      // where("geohash", ">=", geohash.substring(0, 4))
+      // where geohash contains the first 4 characters of the user geohash not implemented yet
+
+      // where("geohash", "==", "ey9g43wkyz")
     );
+    //chequea este
+    // onSnapshot(q, (snapshot) => {
+    //   const data = snapshot.docs.map((doc) => doc.data());
+
+    //   setRestaurants(data);
+    //   setInitialRestaurants(data);
+
+    //   // console.log("restaurantsNUEVOSlenght", restaurants.lenght);
+    // });
+    //hasta aqui
     const querySnapshot = await getDocs(q);
     const data = querySnapshot.docs.map((doc) => doc.data());
     setRestaurants(data);
+    setInitialRestaurants(data);
   };
+
   useEffect(() => {
-    getRestaurants();
+    getLocation();
+    console.log("GEOHASH1", geohash.substring(0, 4));
+    // getRestaurants();
   }, []);
+  //chequea este tambien
+  useFocusEffect(
+    useCallback(() => {
+      getRestaurants();
+    }, [])
+  );
+  //hasta aqui
+  useEffect(() => {
+    // getLocation();
+    // console.log("GEOHASH1", geohash.substring(0, 4));
+    getRestaurants();
+  }, [geohash]);
 
   // useEffect(() => {
   //   (async () => {
@@ -172,6 +293,7 @@ export function RestaurantsScreen(props) {
             setSearchResults={setSearchResults}
             setSearchText={setSearchText}
           />
+
           {/* // <ListRestaurants restaurants={restaurants} /> */}
           {!searchText &&
             // if restaurants.lenght is 0 then show the text no results found else show the Explore component
@@ -191,6 +313,7 @@ export function RestaurantsScreen(props) {
             ) : (
               <Explore
                 restaurants={restaurants}
+                location={location}
                 width={width}
                 height={height}
                 CARD_WIDTH={CARD_WIDTH}
@@ -202,8 +325,12 @@ export function RestaurantsScreen(props) {
             ))}
         </>
       )}
-      <FilterRestaurants updateRestaurants={updateRestaurants} />
-
+      {!searchText && (
+        <FilterRestaurants
+          updateRestaurants={updateRestaurants}
+          initialRestaurants={initialRestaurants}
+        />
+      )}
       {/* {currentUser && (
         <Icon
           reverse

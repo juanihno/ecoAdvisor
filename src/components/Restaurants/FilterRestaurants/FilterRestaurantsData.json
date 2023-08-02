@@ -156,7 +156,7 @@
         {
           "id": 1,
           "title": "vegetarian",
-          "dbValue": "FoodProducts.Fullyvegetarian",
+          "dbValue": "FoodProducts.FullyVegetarian",
           "value": "FullyVegetarian",
           "checked": false
         },
@@ -164,7 +164,7 @@
         {
           "id": 2,
           "title": "vegan",
-          "dbValue": "FoodProducts.Fullyvegan",
+          "dbValue": "FoodProducts.FullyVegan",
           "value": "FullyVegan",
           "checked": false,
           "filter": "vegan"
@@ -172,9 +172,9 @@
 
         {
           "id": 3,
-          "title": "Discount for using own cup",
-          "dbValue": "coffee.DiscountForUsingOwncup",
-          "value": "DiscountForUsingOwncup",
+          "title": "Second hand products",
+          "dbValue": "FoodProducts.SecondHandProducts",
+          "value": "SecondHandProducts",
           "checked": false,
           "filter": "cup"
         },
@@ -191,14 +191,14 @@
           "id": 5,
           "title": "No plastic",
           "dbValue": "waste.FullyPlasticFree",
-          "value": "FullyPlasticFree",
+          "value": "FullyPlasticBagFree",
           "checked": false,
           "filter": "plastic"
         },
         {
           "id": 6,
           "title": "Renewable energy",
-          "dbValue": "supplier.ReusableEnergy",
+          "dbValue": "SupplierEnergy.ReusableEnergy",
           "value": "ReusableEnergy",
           "checked": false,
           "filter": "energy"

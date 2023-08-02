@@ -32,6 +32,7 @@ import { screen } from "../../../utils";
 export function Explore(props) {
   const {
     restaurants,
+    location,
     CARD_HEIGHT,
     CARD_WIDTH,
     MARGIN,
@@ -41,6 +42,8 @@ export function Explore(props) {
     updateRestaurants,
   } = props;
   console.log("PROPSExplore", restaurants.length);
+  console.log("PROPSExploreFirstRestaurantLocation", restaurants[0].location);
+  console.log("PROPSExploreLocation", location);
   const navigation = useNavigation();
 
   const [markers, setMarkers] = useState(
@@ -80,11 +83,17 @@ export function Explore(props) {
   useEffect(() => {
     setState({
       markers,
+      // region: {
+      //   latitude: 37.78825,
+      //   longitude: -122.4324,
+      //   latitudeDelta: 0.0922,
+      //   longitudeDelta: 0.0421,
+      // },
       region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: restaurants[0].location.latitude,
+        longitude: restaurants[0].location.longitude,
+        latitudeDelta: 0.04864195044303443,
+        longitudeDelta: 0.040142817690068,
       },
     });
   }, [markers]);
@@ -92,11 +101,17 @@ export function Explore(props) {
   const initialMapState = {
     markers,
 
+    // region: {
+    //   latitude: 37.78825,
+    //   longitude: -122.4324,
+    //   latitudeDelta: 0.0922,
+    //   longitudeDelta: 0.0421,
+    // },
     region: {
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      latitude: restaurants[0].location.latitude,
+      longitude: restaurants[0].location.longitude,
+      latitudeDelta: 0.04864195044303443,
+      longitudeDelta: 0.040142817690068,
     },
   };
   const [state, setState] = useState(initialMapState);
@@ -170,7 +185,8 @@ export function Explore(props) {
       <MapView
         showsUserLocation={true}
         ref={_map}
-        initialRegion={state.region}
+        // initialRegion = {state.region}
+        region={state.region}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
         // customMapStyle={theme.dark ? mapDarkStyle : mapStandardStyle}
@@ -249,6 +265,7 @@ export function Explore(props) {
               shadowOffset: { x: 2, y: -2 },
               height: CARD_HEIGHT,
               width: CARD_WIDTH,
+              marginBottom: 15,
               overflow: "hidden",
               borderRadius: 20,
             }}

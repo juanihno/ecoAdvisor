@@ -20,13 +20,34 @@ import {
 import { db } from "../../../utils";
 import { array, string } from "yup";
 export function FilterRestaurants(props) {
-  const { updateRestaurants } = props;
+  const { updateRestaurants, initialRestaurants } = props;
+  const [newRestaurants, setNewRestaurants] = useState();
+  console.log("newRestaurants1", initialRestaurants);
+  console.log("newRestaurants2", newRestaurants);
   const [showModal, setShowModal] = useState(false);
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
   const [constraints, setConstraints] = useState([]);
   const [busConstraints, setBusConstraints] = useState([]);
   const [typeConstraints, setTypeConstraints] = useState([]);
   const [oopConstraints, setOopConstraints] = useState([]);
+  const [shopTypeConstraints, setShopTypeConstraints] = useState([]);
+  const [shopOpConstraints, setShopOpConstraints] = useState([]);
+  const getInitialRestaurants = async () => {
+    const q = query(
+      collection(db, "restaurants"),
+      // where("geohash", ">=", geohash.substring(0, 4)),
+      // where("geohash", "<=", geohash.substring(0, 4) + "~")
+      // where("geohash", "<=", geohash.substring(0, 5) + "~")
+      // orderBy("geohash", "desc")
+      // where("geohash", ">=", geohash.substring(0, 4))
+      // where geohash contains the first 4 characters of the user geohash not implemented yet
+
+      where("geohash", "==", "ey9g43wkyz")
+    );
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map((doc) => doc.data());
+    setNewRestaurants(data);
+  };
 
   const [filters, setFilters] = useState({
     restaurants: false,
@@ -333,9 +354,18 @@ export function FilterRestaurants(props) {
     setBusConstraints([]);
     setTypeConstraints([]);
     setOopConstraints([]);
+    setShopTypeConstraints([]);
+    setShopOpConstraints([]);
     setNewData({ ...newData });
+    updateRestaurants(initialRestaurants);
+    // getInitialRestaurants();
+    // updateRestaurants(newRestaurants);
+
+    onCloseOpenModal();
   };
   const applyFilters = async () => {
+    const restaurants = [];
+    const shops = [];
     Data.restaurants.map((item) => {
       if (item.checked) {
         busConstraints.push(where("BusinessType", "==", item.value));
@@ -358,57 +388,138 @@ export function FilterRestaurants(props) {
       }
       item.type.map((type) => {
         if (type.checked) {
-          typeConstraints.push(where("ShopType", "==", type.value));
+          shopTypeConstraints.push(where("ShopType", "==", type.value));
+          // typeConstraints.push(where("ShopType", "==", type.value));
           console.log("typeConstraints", typeConstraints);
         }
       });
       item.options.map((options) => {
         if (options.checked) {
-          oopConstraints.push(where(options.dbValue, "==", true));
+          shopOpConstraints.push(where(options.dbValue, "==", true));
+          // oopConstraints.push(where(options.dbValue, "==", true));
           console.log("oopConstraints", oopConstraints);
         }
       });
     });
-
     const q = query(
       collection(db, "restaurants"),
-
       and(
-        or(or(...busConstraints), or(...typeConstraints), or(...oopConstraints))
-        // or(
-        //   or(
-        //     where("BusinessType", "==", "Restaurant"),
-        //     where("BusinessType", "==", "Shop")
-        //   ),
-
-        //   or(),
-        //   // where("RestaurantType", "==", "restaurant"),
-        //   // where("RestaurantType", "==", "cofee/Bakery")
-        //   // where("ShopType", "==", "Grocery/Supermarket")
-        //   or(
-        //     // where("menu.FullyVegan", "==", true),
-        //     where("FoodProducts.FullyVegetarian", "==", true)
-        //   )
-        // )
+        where("BusinessType", "==", "Restaurant"),
+        and(or(...typeConstraints)),
+        and(or(...oopConstraints))
       )
+
+      // orderBy("geohash")
+    );
+    const qTwo = query(
+      collection(db, "restaurants"),
+      and(
+        where("BusinessType", "==", "Shop"),
+        and(or(...shopTypeConstraints)),
+        and(or(...shopOpConstraints))
+      )
+
+      // : filters.restaurants && filters.shops
+      // ? and(
+      //     where("BusinessType", "in", ["Restaurant", "Shop"]),
+      //     and(or(...shopTypeConstraints)),
+      //     and(or(...shopOpConstraints)),
+      //     and(or(...typeConstraints)),
+      //     and(or(...oopConstraints))
+      //   )
+
       // orderBy("geohash")
     );
 
-    console.log("constraints", q);
+    // de aqui
+    // const q = query(
+    //   collection(db, "restaurants"),
 
-    const result = await getDocs(q);
-    const restaurants = [];
-    result.forEach((doc) => {
-      restaurants.push({ ...doc.data(), id: doc.id });
-    });
-    updateRestaurants(restaurants);
+    //   and(
+    //     // or(or(...busConstraints), or(...typeConstraints), or(...oopConstraints))
+    //     or(...busConstraints),
+    //     and(or(...typeConstraints)),
+    //     and(or(...oopConstraints))
+
+    //     // and(or(...busConstraints)),
+    //     // or(and(or(...typeConstraints)), and(or(...oopConstraints)))
+
+    //     // or(
+    //     //   or(
+    //     //     where("BusinessType", "==", "Restaurant"),
+    //     //     where("BusinessType", "==", "Shop")
+    //     //   ),
+
+    //     //   or(),
+    //     //   // where("RestaurantType", "==", "restaurant"),
+    //     //   // where("RestaurantType", "==", "cofee/Bakery")
+    //     //   // where("ShopType", "==", "Grocery/Supermarket")
+    //     //   or(
+    //     //     where("menu.FullyVegan", "==", true),
+    //     //     where("FoodProducts.FullyVegetarian", "==", true)
+    //     //   )
+    //     // )
+    //   )
+    //   // orderBy("geohash")
+    // );
+    //hasta aqui
+    console.log("constraints", q);
+    //merge both queries if filters.restaurants && filters.shops is true
+    if (filters.restaurants && filters.shops) {
+      const result = await getDocs(q);
+      const resultTwo = await getDocs(qTwo);
+      // const restaurants = [];
+      // const shops = [];
+      result.forEach((doc) => {
+        restaurants.push({ ...doc.data(), id: doc.id });
+      });
+      resultTwo.forEach((doc) => {
+        shops.push({ ...doc.data(), id: doc.id });
+      });
+      const all = [...restaurants, ...shops];
+      updateRestaurants(all);
+      // console.log("size restaurants", all.length);
+    } else if (filters.restaurants && !filters.shops) {
+      const result = await getDocs(q);
+      // const restaurants = [];
+      result.forEach((doc) => {
+        restaurants.push({ ...doc.data(), id: doc.id });
+      });
+      updateRestaurants(restaurants);
+      // console.log("size restaurants", restaurants.length);
+    } else if (!filters.restaurants && filters.shops) {
+      const resultTwo = await getDocs(qTwo);
+      // const shops = [];
+      resultTwo.forEach((doc) => {
+        shops.push({ ...doc.data(), id: doc.id });
+      });
+      updateRestaurants(shops);
+    }
+    // console.log("SIZE RESTAURANTS", restaurants.length);
+    // console.log("SIZE SHOPS", shops.length);
+    // console.log("SIZE ALL", restaurants.length + shops.length);
+    // }
+
+    //de aqui
+    // const result = await getDocs(q);
+    // const restaurants = [];
+    // result.forEach((doc) => {
+    //   restaurants.push({ ...doc.data(), id: doc.id });
+    // });
+    //hasta aqui
+    // updateRestaurants(restaurants);
     setConstraints([]);
     setBusConstraints([]);
     setTypeConstraints([]);
     setOopConstraints([]);
+    setShopTypeConstraints([]);
+    setShopOpConstraints([]);
     onCloseOpenModal();
 
-    console.log("size restaurants", restaurants.length);
+    // console.log("size restaurants", restaurants.length);
+    console.log("SIZE RESTAURANTS", restaurants.length);
+    console.log("SIZE SHOPS", shops.length);
+    console.log("SIZE ALL", restaurants.length + shops.length);
   };
 
   const getRestaurants = async () => {
