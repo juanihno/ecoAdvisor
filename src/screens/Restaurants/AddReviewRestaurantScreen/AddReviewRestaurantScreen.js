@@ -1,15 +1,15 @@
-import { View } from 'react-native';
-import { AirbnbRating, Input, Button } from 'react-native-elements';
-import React from 'react';
-import { styles } from './AddReviewRestaurantScreen.styles';
-import { useFormik } from 'formik';
+import { View, ScrollView } from "react-native";
+import { AirbnbRating, Input, Button } from "react-native-elements";
+import React from "react";
+import { styles } from "./AddReviewRestaurantScreen.styles";
+import { useFormik } from "formik";
 import {
   initialValues,
   validationSchema,
-} from './AddReviewRestaurantScreen.data';
-import { Toast } from 'react-native-toast-message';
-import { getAuth } from 'firebase/auth';
-import { screen } from '../../../utils';
+} from "./AddReviewRestaurantScreen.data";
+import { Toast } from "react-native-toast-message";
+import { getAuth } from "firebase/auth";
+import { screen } from "../../../utils";
 import {
   doc,
   setDoc,
@@ -19,12 +19,12 @@ import {
   onSnapshot,
   updateDoc,
   getDocs,
-} from 'firebase/firestore';
-import { db } from '../../../utils';
-import { v4 as uuid } from 'uuid';
-import { map, mean } from 'lodash';
-import { useNavigation } from '@react-navigation/native';
-import { updateRestaurant } from '../../../utils/generalUtilities';
+} from "firebase/firestore";
+import { db } from "../../../utils";
+import { v4 as uuid } from "uuid";
+import { map, mean } from "lodash";
+import { useNavigation } from "@react-navigation/native";
+import { updateRestaurant } from "../../../utils/generalUtilities";
 export function AddReviewRestaurantScreen(props) {
   const { route } = props;
   const navigation = useNavigation();
@@ -44,23 +44,21 @@ export function AddReviewRestaurantScreen(props) {
         newData.idUser = auth.currentUser.uid;
         newData.avatar = auth.currentUser.photoURL;
         newData.createdAt = new Date();
-        await setDoc(doc(db, 'reviews', idDoc), newData);
+        await setDoc(doc(db, "reviews", idDoc), newData);
         await updateRestaurant(route.params.idRestaurant);
         navigation.navigate(screen.restaurant.restaurant, {
           id: route.params.idRestaurant,
         });
-        console.log('Document successfully written!', newData);
+        console.log("Document successfully written!", newData);
       } catch (error) {
         Toast.show({
-          type: 'error',
-          postion: 'bottom',
-          text1: 'Error sending the review',
+          type: "error",
+          postion: "bottom",
+          text1: "Error sending the review",
         });
       }
     },
   });
-  // console.log("rating", formik.values.rating);
-  // console.log("title", formik.values.title);
 
   return (
     <View style={styles.content}>
@@ -68,26 +66,29 @@ export function AddReviewRestaurantScreen(props) {
         <View style={styles.ratingContent}>
           <AirbnbRating
             count={5}
-            reviews={['Terrible', 'Bad', 'OK', 'Good', 'Excellent']}
+            reviews={["Terrible", "Bad", "OK", "Good", "Excellent"]}
             defaultRating={formik.values.rating}
             size={35}
-            onFinishRating={(rating) => formik.setFieldValue('rating', rating)}
+            onFinishRating={(rating) => formik.setFieldValue("rating", rating)}
           />
         </View>
+        {/* <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="never"> */}
         <Input
           placeholder="Title"
           inputContainerStyle={styles.input}
-          onChangeText={(text) => formik.setFieldValue('title', text)}
+          onChangeText={(text) => formik.setFieldValue("title", text)}
           errorMessage={formik.errors.title}
         />
-        <Input
-          placeholder="Write your comment here..."
-          multiline
-          inputContainerStyle={styles.comment}
-          containerStyle={styles.inputContainer}
-          onChangeText={(text) => formik.setFieldValue('comment', text)}
-          errorMessage={formik.errors.comment}
-        />
+        <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="never">
+          <Input
+            placeholder="Write your comment here..."
+            multiline
+            inputContainerStyle={styles.comment}
+            containerStyle={styles.inputContainer}
+            onChangeText={(text) => formik.setFieldValue("comment", text)}
+            errorMessage={formik.errors.comment}
+          />
+        </ScrollView>
       </View>
       <Button
         title="Send review"

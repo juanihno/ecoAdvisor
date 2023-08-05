@@ -27,6 +27,7 @@ import * as Location from "expo-location";
 
 import { useNavigation, useTheme } from "@react-navigation/native";
 import { screen } from "../../../utils";
+import { height } from "deprecated-react-native-prop-types/DeprecatedImagePropType";
 // import { SearchBarExplore } from "../SearchBarExplore";
 
 export function Explore(props) {
@@ -38,9 +39,11 @@ export function Explore(props) {
     MARGIN,
     SPACING_FOR_CARD_INSET,
     HEIGHT,
+    height,
     width,
     updateRestaurants,
   } = props;
+  console.log("CARD HEIGH", height);
   console.log("PROPSExplore", restaurants.length);
   console.log("PROPSExploreFirstRestaurantLocation", restaurants[0].location);
   console.log("PROPSExploreLocation", location);
@@ -273,6 +276,7 @@ export function Explore(props) {
           >
             <View style={styles.cardImage} key={index}>
               <Image
+                onPress={() => goToDetails(marker)}
                 // style={{ width: "100%", height: "100%" }}
                 style={styles.img}
                 // if there is marker.image, use it, otherwise use the default image from the assets
@@ -310,11 +314,11 @@ export function Explore(props) {
                   onPress={() => goToDetails(marker)}
                   style={[
                     styles.signIn,
-                    {
-                      borderRadius: 15,
-                      borderColor: "#FF6347",
-                      borderWidth: 1,
-                    },
+                    // {
+                    //   // borderRadius: 15,
+                    //   // borderColor: "#FF6347",
+                    //   // borderWidth: 1,
+                    // },
                   ]}
                 >
                   <Text

@@ -217,8 +217,11 @@ export function RestaurantsScreen(props) {
 
     const q = query(
       collection(db, "restaurants"),
-      where("geohash", ">=", geohash.substring(0, 4)),
-      where("geohash", "<=", geohash.substring(0, 4) + "~")
+      orderBy("geohash"),
+      startAt(geohash.substring(0, 4)),
+      endAt(`${geohash.substring(0, 4)}\uf8ff`)
+      // where("geohash", ">=", geohash.substring(0, 4)),
+      // where("geohash", "<=", geohash.substring(0, 4) + "~")
       // where("geohash", "<=", geohash.substring(0, 5) + "~")
       // orderBy("geohash", "desc")
       // where("geohash", ">=", geohash.substring(0, 4))
@@ -251,14 +254,14 @@ export function RestaurantsScreen(props) {
   useFocusEffect(
     useCallback(() => {
       getRestaurants();
-    }, [])
+    }, [geohash])
   );
   //hasta aqui
-  useEffect(() => {
-    // getLocation();
-    // console.log("GEOHASH1", geohash.substring(0, 4));
-    getRestaurants();
-  }, [geohash]);
+  // useEffect(() => {
+  //   // getLocation();
+  //   // console.log("GEOHASH1", geohash.substring(0, 4));
+  //   getRestaurants();
+  // }, [geohash]);
 
   // useEffect(() => {
   //   (async () => {

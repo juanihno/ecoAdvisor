@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import {
   width,
+  height,
   MARGIN,
   CARD_WIDTH,
   CARD_HEIGHT,
@@ -91,6 +92,7 @@ export const styles = StyleSheet.create({
     width: CARD_WIDTH,
     overflow: "hidden",
     borderRadius: 20,
+    // marginBottom: 15,
   },
 
   cardImage: {
@@ -145,7 +147,11 @@ export const styles = StyleSheet.create({
     padding: 5,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 3,
+    // borderRadius: 3,
+    // borderRadius: 15,
+    // borderColor: "#FF6347",
+    // borderWidth: CARD_HEIGHT < 215 ? 0 : 1,
+    // borderWidth: height > 750 ? 0 : 1,
   },
   textSign: {
     fontSize: 14,

@@ -32,22 +32,6 @@ export function FilterRestaurants(props) {
   const [oopConstraints, setOopConstraints] = useState([]);
   const [shopTypeConstraints, setShopTypeConstraints] = useState([]);
   const [shopOpConstraints, setShopOpConstraints] = useState([]);
-  const getInitialRestaurants = async () => {
-    const q = query(
-      collection(db, "restaurants"),
-      // where("geohash", ">=", geohash.substring(0, 4)),
-      // where("geohash", "<=", geohash.substring(0, 4) + "~")
-      // where("geohash", "<=", geohash.substring(0, 5) + "~")
-      // orderBy("geohash", "desc")
-      // where("geohash", ">=", geohash.substring(0, 4))
-      // where geohash contains the first 4 characters of the user geohash not implemented yet
-
-      where("geohash", "==", "ey9g43wkyz")
-    );
-    const querySnapshot = await getDocs(q);
-    const data = querySnapshot.docs.map((doc) => doc.data());
-    setNewRestaurants(data);
-  };
 
   const [filters, setFilters] = useState({
     restaurants: false,
@@ -57,32 +41,32 @@ export function FilterRestaurants(props) {
     restaurant: false,
     coofee: false,
   });
-  const [shopTypeFilter, setShopTypeFilter] = useState({
-    grocery: false,
-    pet: false,
-    clothing: false,
-    beauty: false,
-    cosmetic: false,
-    craft: false,
-    homeware: false,
-    op: false,
-  });
-  const [restaurantOptionsFilter, setRestaurantOptionsFilter] = useState({
-    vegetarian: false,
-    vegan: false,
-    discount: false,
-    local: false,
-    plastic: false,
-    renewable: false,
-  });
-  const [shopOptionsFilter, setShopOptionsFilter] = useState({
-    vegetarian: false,
-    vegan: false,
-    discount: false,
-    local: false,
-    plastic: false,
-    renewable: false,
-  });
+  // const [shopTypeFilter, setShopTypeFilter] = useState({
+  //   grocery: false,
+  //   pet: false,
+  //   clothing: false,
+  //   beauty: false,
+  //   cosmetic: false,
+  //   craft: false,
+  //   homeware: false,
+  //   op: false,
+  // });
+  // const [restaurantOptionsFilter, setRestaurantOptionsFilter] = useState({
+  //   vegetarian: false,
+  //   vegan: false,
+  //   discount: false,
+  //   local: false,
+  //   plastic: false,
+  //   renewable: false,
+  // });
+  // const [shopOptionsFilter, setShopOptionsFilter] = useState({
+  //   vegetarian: false,
+  //   vegan: false,
+  //   discount: false,
+  //   local: false,
+  //   plastic: false,
+  //   renewable: false,
+  // });
 
   const filterChange = (value, filterName) => {
     setFilters({ ...filters, [filterName]: value });
@@ -94,8 +78,8 @@ export function FilterRestaurants(props) {
   };
   const [newData, setNewData] = useState(Data);
   console.log("DATAUSE", newData);
-  console.log("newDataTypeFiltersRes", restaurantTypeFilter);
-  console.log("newDataTypeFiltersShop", shopTypeFilter);
+  // console.log("newDataTypeFiltersRes", restaurantTypeFilter);
+  // console.log("newDataTypeFiltersShop", shopTypeFilter);
 
   const onChangeSwitch = (id) => {
     {
@@ -124,21 +108,21 @@ export function FilterRestaurants(props) {
               if (type.id === idTwo) {
                 type.checked = !type.checked;
                 // setFilters({ ...filters, [filterName]: value });
-                if (
-                  type.filter === "restaurant"
-                  // || type.filter === "coofee"
-                ) {
-                  setRestaurantTypeFilter({
-                    ...restaurantTypeFilter,
-                    restaurant: !restaurantTypeFilter.restaurant,
-                  });
-                }
-                if (type.filter === "coofee") {
-                  setRestaurantTypeFilter({
-                    ...restaurantTypeFilter,
-                    coofee: !restaurantTypeFilter.coofee,
-                  });
-                }
+                // if (
+                //   type.filter === "restaurant"
+                //   // || type.filter === "coofee"
+                // ) {
+                //   setRestaurantTypeFilter({
+                //     ...restaurantTypeFilter,
+                //     restaurant: !restaurantTypeFilter.restaurant,
+                //   });
+                // }
+                // if (type.filter === "coofee") {
+                //   setRestaurantTypeFilter({
+                //     ...restaurantTypeFilter,
+                //     coofee: !restaurantTypeFilter.coofee,
+                //   });
+                // }
               }
             });
           })
@@ -146,61 +130,61 @@ export function FilterRestaurants(props) {
             item.type.map((type) => {
               if (type.id === idTwo) {
                 type.checked = !type.checked;
-                if (type.filter === "grocery") {
-                  setShopTypeFilter({
-                    ...shopTypeFilter,
-                    grocery: !shopTypeFilter.grocery,
-                  });
-                }
-                if (type.filter === "pet") {
-                  setShopTypeFilter({
-                    ...shopTypeFilter,
-                    pet: !shopTypeFilter.pet,
-                  });
-                }
-                if (type.filter === "clothing") {
-                  setShopTypeFilter({
-                    ...shopTypeFilter,
-                    clothing: !shopTypeFilter.clothing,
-                  });
-                }
-                if (type.filter === "beauty") {
-                  setShopTypeFilter({
-                    ...shopTypeFilter,
-                    beauty: !shopTypeFilter.beauty,
-                  });
-                }
-                if (type.filter === "cosmetic") {
-                  setShopTypeFilter({
-                    ...shopTypeFilter,
-                    cosmetic: !shopTypeFilter.cosmetic,
-                  });
-                }
-                if (type.filter === "craft") {
-                  setShopTypeFilter({
-                    ...shopTypeFilter,
-                    craft: !shopTypeFilter.craft,
-                  });
-                }
-                if (type.filter === "homeware") {
-                  setShopTypeFilter({
-                    ...shopTypeFilter,
-                    homeware: !shopTypeFilter.homeware,
-                  });
-                }
-                if (type.filter === "op") {
-                  setShopTypeFilter({
-                    ...shopTypeFilter,
-                    op: !shopTypeFilter.op,
-                  });
-                }
+                // if (type.filter === "grocery") {
+                //   setShopTypeFilter({
+                //     ...shopTypeFilter,
+                //     grocery: !shopTypeFilter.grocery,
+                //   });
+                // }
+                // if (type.filter === "pet") {
+                //   setShopTypeFilter({
+                //     ...shopTypeFilter,
+                //     pet: !shopTypeFilter.pet,
+                //   });
+                // }
+                // if (type.filter === "clothing") {
+                //   setShopTypeFilter({
+                //     ...shopTypeFilter,
+                //     clothing: !shopTypeFilter.clothing,
+                //   });
+                // }
+                // if (type.filter === "beauty") {
+                //   setShopTypeFilter({
+                //     ...shopTypeFilter,
+                //     beauty: !shopTypeFilter.beauty,
+                //   });
+                // }
+                // if (type.filter === "cosmetic") {
+                //   setShopTypeFilter({
+                //     ...shopTypeFilter,
+                //     cosmetic: !shopTypeFilter.cosmetic,
+                //   });
+                // }
+                // if (type.filter === "craft") {
+                //   setShopTypeFilter({
+                //     ...shopTypeFilter,
+                //     craft: !shopTypeFilter.craft,
+                //   });
+                // }
+                // if (type.filter === "homeware") {
+                //   setShopTypeFilter({
+                //     ...shopTypeFilter,
+                //     homeware: !shopTypeFilter.homeware,
+                //   });
+                // }
+                // if (type.filter === "op") {
+                //   setShopTypeFilter({
+                //     ...shopTypeFilter,
+                //     op: !shopTypeFilter.op,
+                //   });
+                // }
               }
             });
           });
     }
     setNewData({ ...newData });
-    console.log("newDataTypeFiltersShop", shopTypeFilter);
-    console.log("newDataTypeFiltersRes", restaurantTypeFilter);
+    // console.log("newDataTypeFiltersShop", shopTypeFilter);
+    // console.log("newDataTypeFiltersRes", restaurantTypeFilter);
   };
 
   const onChangeSwitchOptions = (id, idTwo) => {
@@ -210,42 +194,42 @@ export function FilterRestaurants(props) {
             item.options.map((options) => {
               if (options.id === idTwo) {
                 options.checked = !options.checked;
-                if (options.filter === "vegetarian") {
-                  setRestaurantOptionsFilter({
-                    ...restaurantOptionsFilter,
-                    vegetarian: !restaurantOptionsFilter.vegetarian,
-                  });
-                }
-                if (options.filter === "vegan") {
-                  setRestaurantOptionsFilter({
-                    ...restaurantOptionsFilter,
-                    vegan: !restaurantOptionsFilter.vegan,
-                  });
-                }
-                if (options.filter === "discount") {
-                  setRestaurantOptionsFilter({
-                    ...restaurantOptionsFilter,
-                    discount: !restaurantOptionsFilter.discount,
-                  });
-                }
-                if (options.filter === "local") {
-                  setRestaurantOptionsFilter({
-                    ...restaurantOptionsFilter,
-                    local: !restaurantOptionsFilter.local,
-                  });
-                }
-                if (options.filter === "plastic") {
-                  setRestaurantOptionsFilter({
-                    ...restaurantOptionsFilter,
-                    plastic: !restaurantOptionsFilter.plastic,
-                  });
-                }
-                if (options.filter === "renewable") {
-                  setRestaurantOptionsFilter({
-                    ...restaurantOptionsFilter,
-                    renewable: !restaurantOptionsFilter.renewable,
-                  });
-                }
+                // if (options.filter === "vegetarian") {
+                //   setRestaurantOptionsFilter({
+                //     ...restaurantOptionsFilter,
+                //     vegetarian: !restaurantOptionsFilter.vegetarian,
+                //   });
+                // }
+                // if (options.filter === "vegan") {
+                //   setRestaurantOptionsFilter({
+                //     ...restaurantOptionsFilter,
+                //     vegan: !restaurantOptionsFilter.vegan,
+                //   });
+                // }
+                // if (options.filter === "discount") {
+                //   setRestaurantOptionsFilter({
+                //     ...restaurantOptionsFilter,
+                //     discount: !restaurantOptionsFilter.discount,
+                //   });
+                // }
+                // if (options.filter === "local") {
+                //   setRestaurantOptionsFilter({
+                //     ...restaurantOptionsFilter,
+                //     local: !restaurantOptionsFilter.local,
+                //   });
+                // }
+                // if (options.filter === "plastic") {
+                //   setRestaurantOptionsFilter({
+                //     ...restaurantOptionsFilter,
+                //     plastic: !restaurantOptionsFilter.plastic,
+                //   });
+                // }
+                // if (options.filter === "renewable") {
+                //   setRestaurantOptionsFilter({
+                //     ...restaurantOptionsFilter,
+                //     renewable: !restaurantOptionsFilter.renewable,
+                //   });
+                // }
               }
             });
           })
@@ -253,42 +237,42 @@ export function FilterRestaurants(props) {
             item.options.map((options) => {
               if (options.id === idTwo) {
                 options.checked = !options.checked;
-                if (options.filter === "vegetarian") {
-                  setShopOptionsFilter({
-                    ...shopOptionsFilter,
-                    vegetarian: !shopOptionsFilter.vegetarian,
-                  });
-                }
-                if (options.filter === "vegan") {
-                  setShopOptionsFilter({
-                    ...shopOptionsFilter,
-                    vegan: !shopOptionsFilter.vegan,
-                  });
-                }
-                if (options.filter === "discount") {
-                  setShopOptionsFilter({
-                    ...shopOptionsFilter,
-                    discount: !shopOptionsFilter.discount,
-                  });
-                }
-                if (options.filter === "local") {
-                  setShopOptionsFilter({
-                    ...shopOptionsFilter,
-                    local: !shopOptionsFilter.local,
-                  });
-                }
-                if (options.filter === "plastic") {
-                  setShopOptionsFilter({
-                    ...shopOptionsFilter,
-                    plastic: !shopOptionsFilter.plastic,
-                  });
-                }
-                if (options.filter === "renewable") {
-                  setShopOptionsFilter({
-                    ...shopOptionsFilter,
-                    renewable: !shopOptionsFilter.renewable,
-                  });
-                }
+                // if (options.filter === "vegetarian") {
+                //   setShopOptionsFilter({
+                //     ...shopOptionsFilter,
+                //     vegetarian: !shopOptionsFilter.vegetarian,
+                //   });
+                // }
+                // if (options.filter === "vegan") {
+                //   setShopOptionsFilter({
+                //     ...shopOptionsFilter,
+                //     vegan: !shopOptionsFilter.vegan,
+                //   });
+                // }
+                // if (options.filter === "discount") {
+                //   setShopOptionsFilter({
+                //     ...shopOptionsFilter,
+                //     discount: !shopOptionsFilter.discount,
+                //   });
+                // }
+                // if (options.filter === "local") {
+                //   setShopOptionsFilter({
+                //     ...shopOptionsFilter,
+                //     local: !shopOptionsFilter.local,
+                //   });
+                // }
+                // if (options.filter === "plastic") {
+                //   setShopOptionsFilter({
+                //     ...shopOptionsFilter,
+                //     plastic: !shopOptionsFilter.plastic,
+                //   });
+                // }
+                // if (options.filter === "renewable") {
+                //   setShopOptionsFilter({
+                //     ...shopOptionsFilter,
+                //     renewable: !shopOptionsFilter.renewable,
+                //   });
+                // }
               }
             });
           });
@@ -320,36 +304,36 @@ export function FilterRestaurants(props) {
       restaurants: false,
       shops: false,
     });
-    setRestaurantTypeFilter({
-      restaurant: false,
-      coofee: false,
-    });
-    setShopTypeFilter({
-      grocery: false,
-      pet: false,
-      clothing: false,
-      beauty: false,
-      cosmetic: false,
-      craft: false,
-      homeware: false,
-      op: false,
-    });
-    setRestaurantOptionsFilter({
-      vegetarian: false,
-      vegan: false,
-      discount: false,
-      local: false,
-      plastic: false,
-      renewable: false,
-    });
-    setShopOptionsFilter({
-      vegetarian: false,
-      vegan: false,
-      discount: false,
-      local: false,
-      plastic: false,
-      renewable: false,
-    });
+    // setRestaurantTypeFilter({
+    //   restaurant: false,
+    //   coofee: false,
+    // });
+    // setShopTypeFilter({
+    //   grocery: false,
+    //   pet: false,
+    //   clothing: false,
+    //   beauty: false,
+    //   cosmetic: false,
+    //   craft: false,
+    //   homeware: false,
+    //   op: false,
+    // });
+    // setRestaurantOptionsFilter({
+    //   vegetarian: false,
+    //   vegan: false,
+    //   discount: false,
+    //   local: false,
+    //   plastic: false,
+    //   renewable: false,
+    // });
+    // setShopOptionsFilter({
+    //   vegetarian: false,
+    //   vegan: false,
+    //   discount: false,
+    //   local: false,
+    //   plastic: false,
+    //   renewable: false,
+    // });
     setConstraints([]);
     setBusConstraints([]);
     setTypeConstraints([]);
