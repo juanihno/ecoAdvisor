@@ -13,6 +13,9 @@ const restaurantStack = {
 const favoritesStack = {
   tab: "FavoritesTab",
   favorites: "Favorites",
+  restaurant: "Restaurant",
+  addReviewRestaurant: "AddReviewRestaurant",
+  reviewsRestaurant: "ReviewsRestaurant",
 };
 const rankingStack = {
   tab: "RankingTab",

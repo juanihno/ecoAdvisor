@@ -4,6 +4,7 @@ import { FavoritesScreen } from "../screens//Restaurants/FavoritesScreen/Favorit
 import { RestaurantScreen } from "../screens/Restaurants/RestaurantScreen/RestaurantScreen";
 import { AddReviewRestaurantScreen } from "../screens/Restaurants/AddReviewRestaurantScreen";
 import { ReviewsScreen } from "../screens/Restaurants/ReviewsScreen";
+
 const Stack = createNativeStackNavigator();
 
 export function FavoritesStack() {
