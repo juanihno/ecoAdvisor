@@ -22,7 +22,7 @@ import {
 } from "../../../components/Restaurant";
 import { Carousel, Loading, Map } from "../../../components/Shared";
 import { useFocusEffect } from "@react-navigation/core";
-import { getAuth } from "@firebase/auth";
+import { getAuth, onAuthStateChanged } from "@firebase/auth";
 const { width, height } = Dimensions.get("window");
 
 export function RestaurantScreen(props) {
@@ -31,6 +31,7 @@ export function RestaurantScreen(props) {
   const [allReviews, setAllReviews] = useState([]);
   const [userReview, setUserReview] = useState([]);
   const auth = getAuth();
+  const [hasLogged, setHasLogged] = useState(null);
 
   const getRestaurantData = async () => {
     setRestaurant(null);
@@ -60,6 +61,11 @@ export function RestaurantScreen(props) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setHasLogged(user ? true : false);
+    });
+  }, [auth]);
 
   useFocusEffect(
     useCallback(() => {
@@ -95,9 +101,15 @@ export function RestaurantScreen(props) {
         idRestaurant={route.params.id}
         restaurantName={restaurant.name}
         userReview={userReview}
+        routeFrom={route.params.routeFrom}
       />
-      <Reviews idRestaurant={route.params.id} allReviews={allReviews} />
-      <BtnFavorite idRestaurant={route.params.id} />
+      <Reviews
+        idRestaurant={route.params.id}
+        allReviews={allReviews}
+        routeFrom={route.params.routeFrom}
+      />
+
+      {hasLogged && <BtnFavorite idRestaurant={route.params.id} />}
     </ScrollView>
   );
 }

@@ -29,6 +29,7 @@ import { useNavigation, useTheme } from "@react-navigation/native";
 import { screen } from "../../../utils";
 import { height } from "deprecated-react-native-prop-types/DeprecatedImagePropType";
 // import { SearchBarExplore } from "../SearchBarExplore";
+import { isDeviceWidth375_667 } from "../../../utils";
 
 export function Explore(props) {
   const {
@@ -43,7 +44,7 @@ export function Explore(props) {
     width,
     updateRestaurants,
   } = props;
-  console.log("CARD HEIGH", height);
+  console.log("CARD WIDTH", width);
   console.log("PROPSExplore", restaurants.length);
   console.log("PROPSExploreFirstRestaurantLocation", restaurants[0].location);
   console.log("PROPSExploreLocation", location);

@@ -8,6 +8,9 @@ import {
   HEIGHT,
   SPACING_FOR_CARD_INSET,
 } from "../../../screens/Restaurants/RestaurantsScreen";
+// import { isDeviceWidth375_667 } from "../../../utils/mediaQuery";
+import { isDeviceWidth370_391 } from "../../../utils";
+
 // import { width } from "../../../screens/Restaurants/RestaurantsScreen";
 export const styles = StyleSheet.create({
   container: {
@@ -147,9 +150,10 @@ export const styles = StyleSheet.create({
     padding: 5,
     justifyContent: "center",
     alignItems: "center",
-    // borderRadius: 3,
-    // borderRadius: 15,
-    // borderColor: "#FF6347",
+    // borderRadius: isDeviceWidth370_391 ? 0 : 3,
+    borderRadius: 15,
+    borderWidth: isDeviceWidth370_391 ? 0 : 1,
+    borderColor: "#FF6347",
     // borderWidth: CARD_HEIGHT < 215 ? 0 : 1,
     // borderWidth: height > 750 ? 0 : 1,
   },

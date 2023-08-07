@@ -17,7 +17,7 @@ export function RankingScreen() {
             minHeight: "100%",
             backgroundColor: "red",
           }}
-          onPress={() => console.log("Delete")}
+          onPress={() => console.log("eliminando")}
         />
       }
     >

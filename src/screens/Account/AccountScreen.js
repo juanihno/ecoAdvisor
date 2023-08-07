@@ -8,6 +8,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { Reviews } from "../../components/Restaurant";
 import { UserReviewsScreen } from "./UserReviewsScreen/UserReviewsScreen";
 import { UserRestaurantScreen } from "./UserRestaurantScreen/UserRestaurantScreen";
+import { LoginScreen } from "./LoginScreen/LoginScreen";
 export function AccountScreen() {
   const TopTab = createMaterialTopTabNavigator();
 
@@ -23,7 +24,7 @@ export function AccountScreen() {
       return <LoadingModal show text="Cargando" />;
     }
 
-    return hasLogged ? <UserLoggedScreen /> : <UserGuestScreen />;
+    return hasLogged ? <UserLoggedScreen /> : <LoginScreen />;
   };
 
   return hasLogged ? (
@@ -107,7 +108,7 @@ export function AccountScreen() {
       /> */}
     </TopTab.Navigator>
   ) : (
-    <UserGuestScreen />
+    <LoginScreen />
   );
 }
 

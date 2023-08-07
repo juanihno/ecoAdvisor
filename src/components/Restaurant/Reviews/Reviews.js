@@ -9,11 +9,17 @@ import { screen } from "../../../utils";
 import { Loading } from "../../../components/Shared";
 
 export function Reviews(props) {
-  const { allReviews, idRestaurant } = props;
+  const { allReviews, idRestaurant, routeFrom } = props;
   const navigation = useNavigation();
   const [avatar, setAvatar] = useState();
 
   const goToDetails = () => {
+    routeFrom === "favorites" &&
+      navigation.navigate(screen.favorites.reviewsRestaurant, {
+        reviews: allReviews,
+        idRestaurant: idRestaurant,
+        console: console.log("YENDO A REVIEWS", idRestaurant),
+      });
     navigation.navigate(screen.restaurant.reviewsRestaurant, {
       reviews: allReviews,
       idRestaurant: idRestaurant,

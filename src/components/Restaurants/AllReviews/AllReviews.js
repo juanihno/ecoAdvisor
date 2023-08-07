@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
 import {
   Text,
   AirbnbRating,
@@ -14,6 +14,7 @@ import { Loading } from "../../../components/Shared";
 
 export function AllReviews(props) {
   const { reviews } = props;
+  const { width, height } = Dimensions.get("window");
 
   if (!reviews) return <Loading show text="Cargando" />;
   if (size(reviews) === 0)
@@ -25,23 +26,39 @@ export function AllReviews(props) {
 
         return (
           <ListItem.Swipeable
+            onSwipeEnd={() => console.log("DELETEEEEEEEEEEEEEEEEEEEE")}
+            rightWidth={width}
+            // onPress={() => console.log("DELETEEEEEEEEEEEEEEEEEEEE")}
+            // justifyContent="space-between"
             rightContent={
               <Button
                 title="Delete"
                 icon={{ type: "material-community", name: "trash-can" }}
-                buttonStyle={{
-                  minHeight: "100%",
-                  backgroundColor: "red",
+                containerStyle={{
+                  textAlign: "center",
+                  backgroundColor: "transparent",
                 }}
-                onPress={() => console.log("Delete")}
+                buttonStyle={{
+                  minHeight: "85%",
+                  // textAlign: "center",
+                  // alignContent: "center",
+                  width: width / 1.2,
+                  backgroundColor: "red",
+                  marginTop: 15,
+                  marginEnd: 90,
+                  borderRadius: 10,
+                }}
+                onPress={() => console.log("DELETEEEEEEEEEEEEEEEEEEEE")}
               />
             }
-            rightStyle={{
-              backgroundColor: "red",
-              paddingVertical: 20,
-              marginTop: 5,
-              borderRadius: 10,
-            }}
+            // rightStyle={{
+            //   backgroundColor: "red",
+            //   // paddingVertical: 20,
+            //   marginTop: 10,
+            //   borderRadius: 10,
+            //   // width: width / 1.5,
+            //   // height: "100%",
+            // }}
             key={data.id}
             bottomDivider
             containerStyle={styles.review}

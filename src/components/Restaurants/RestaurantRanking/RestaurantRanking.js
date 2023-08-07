@@ -13,9 +13,13 @@ export function RestaurantRanking(props) {
   const { width, height } = Dimensions.get("window");
 
   const goToBussiness = () => {
-    navigation.navigate(screen.restaurant.tab, {
-      screen: screen.restaurant.restaurant,
-      params: { id: restaurant.id },
+    // navigation.navigate(screen.restaurant.tab, {
+    //   screen: screen.restaurant.restaurant,
+    //   params: { id: restaurant.id },
+    // });
+    navigation.navigate(screen.restaurant.restaurant, {
+      id: restaurant.id,
+      routeFrom: "favorites",
     });
   };
 

@@ -48,10 +48,15 @@ export function BussinessFavorites(props) {
   };
 
   const goToBussiness = () => {
-    navigation.navigate(screen.restaurant.tab, {
-      screen: screen.restaurant.restaurant,
-      params: { id: bussiness.id },
+    navigation.navigate(screen.restaurant.restaurant, {
+      id: bussiness.id,
+      routeFrom: "favorites",
     });
+
+    // navigation.navigate(screen.restaurant.tab, {
+    //   screen: screen.restaurant.restaurant,
+    //   params: { id: bussiness.id },
+    // });
   };
   const onRemoveFavorite = async () => {
     try {
