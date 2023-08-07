@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React, { useState } from "react";
 import { styles } from "./OpenGallery.styles";
-import { Input, Button } from "react-native-elements";
+import { Input, Button } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
 import { LoadingModal } from "../../Shared";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";

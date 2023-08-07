@@ -1,7 +1,7 @@
-import { View, ActivityIndicator } from 'react-native';
-import React from 'react';
-import { styles } from './Loading.styles';
-import { Text } from 'react-native-elements';
+import { View, ActivityIndicator } from "react-native";
+import React from "react";
+import { styles } from "./Loading.styles";
+import { Text } from "react-native-elements";
 
 export function Loading(props) {
   const { show, text } = props;
