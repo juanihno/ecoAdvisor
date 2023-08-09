@@ -29,7 +29,7 @@ import { useNavigation, useTheme } from "@react-navigation/native";
 import { screen } from "../../../utils";
 import { height } from "deprecated-react-native-prop-types/DeprecatedImagePropType";
 // import { SearchBarExplore } from "../SearchBarExplore";
-import { isDeviceWidth375_667 } from "../../../utils";
+import { isDeviceWidth370_390 } from "../../../utils";
 
 export function Explore(props) {
   const {
@@ -48,6 +48,7 @@ export function Explore(props) {
   console.log("PROPSExplore", restaurants.length);
   console.log("PROPSExploreFirstRestaurantLocation", restaurants[0].location);
   console.log("PROPSExploreLocation", location);
+  console.log("PROPSExploreDIMENSIONS", isDeviceWidth370_390);
   const navigation = useNavigation();
 
   const [markers, setMarkers] = useState(

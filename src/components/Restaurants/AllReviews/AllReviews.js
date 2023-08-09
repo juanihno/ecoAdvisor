@@ -1,11 +1,6 @@
 import { View, Dimensions } from "react-native";
-import {
-  Text,
-  AirbnbRating,
-  ListItem,
-  Avatar,
-  Button,
-} from "react-native-elements";
+import { Text, AirbnbRating, Avatar, Button } from "react-native-elements";
+import { ListItem } from "@rneui/base";
 
 import React from "react";
 import { styles } from "./AllReviews.styles";
@@ -25,44 +20,7 @@ export function AllReviews(props) {
         const createReview = new Date(data.createdAt.seconds * 1000);
 
         return (
-          <ListItem.Swipeable
-            onSwipeEnd={() => console.log("DELETEEEEEEEEEEEEEEEEEEEE")}
-            rightWidth={width}
-            // onPress={() => console.log("DELETEEEEEEEEEEEEEEEEEEEE")}
-            // justifyContent="space-between"
-            rightContent={
-              <Button
-                title="Delete"
-                icon={{ type: "material-community", name: "trash-can" }}
-                containerStyle={{
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                }}
-                buttonStyle={{
-                  minHeight: "85%",
-                  // textAlign: "center",
-                  // alignContent: "center",
-                  width: width / 1.2,
-                  backgroundColor: "red",
-                  marginTop: 15,
-                  marginEnd: 90,
-                  borderRadius: 10,
-                }}
-                onPress={() => console.log("DELETEEEEEEEEEEEEEEEEEEEE")}
-              />
-            }
-            // rightStyle={{
-            //   backgroundColor: "red",
-            //   // paddingVertical: 20,
-            //   marginTop: 10,
-            //   borderRadius: 10,
-            //   // width: width / 1.5,
-            //   // height: "100%",
-            // }}
-            key={data.id}
-            bottomDivider
-            containerStyle={styles.review}
-          >
+          <ListItem>
             <View>
               <Avatar
                 size={50}
@@ -94,7 +52,7 @@ export function AllReviews(props) {
                 </View>
               </View>
             </ListItem.Content>
-          </ListItem.Swipeable>
+          </ListItem>
         );
       })}
     </View>

@@ -32,14 +32,21 @@ export function UploadImagesFormAccount(props) {
 
   const openGallery = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
+      // presentationStyle: "fullScreen",
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
+    if (result.canceled) {
+      return;
+    }
+
     if (!result.canceled) {
       setIsloading(true);
-      uploadImage(result.uri);
+      // uploadImage(result.uri);
+      uploadImage(result.assets[0].uri);
+
       // getRestaurantData();
     }
   };

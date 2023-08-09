@@ -1,13 +1,13 @@
-import { View } from "react-native";
+import { View, Dimensions, ScrollView } from "react-native";
 import {
   Text,
   AirbnbRating,
-  ListItem,
   Avatar,
   Button,
   Chip,
   Icon,
 } from "react-native-elements";
+import { ListItem } from "@rneui/base";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { styles } from "./AllUserReviews.styles";
@@ -27,8 +27,10 @@ import { Loading } from "../../../components/Shared";
 import { useFocusEffect } from "@react-navigation/core";
 import { updateRestaurant } from "../../../utils/generalUtilities";
 export function AllUserReviews(props) {
+  const { width, height } = Dimensions.get("window");
   const { userId, haslogged } = props;
   const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [filterReviews, setFilterReviews] = useState();
   // console.log('REVIEWS CHECK', size(reviews));
@@ -156,7 +158,8 @@ export function AllUserReviews(props) {
   //   };
 
   //   // create function to update the restaurant rating when a review is deleted
-  const Delete = async (id) => {
+  const deleteReview = async (id) => {
+    setLoading(true);
     console.log("Delete id: ", id);
     try {
       if (id) {
@@ -167,6 +170,7 @@ export function AllUserReviews(props) {
         await getUserReviews();
       }
       console.log("Document successfully deleted!");
+      setLoading(false);
     } catch (error) {
       console.log("Error removing document: ", error);
     }
@@ -241,8 +245,13 @@ export function AllUserReviews(props) {
 
               return (
                 <ListItem.Swipeable
+                  rightWidth={width - 100}
+                  leftWidth={0}
+                  // onSwipeEnd={() => deleteReview(data.id)}
+
                   rightContent={
                     <Button
+                      loading={loading}
                       title="Delete"
                       icon={{ type: "material-community", name: "trash-can" }}
                       buttonStyle={{
@@ -253,7 +262,7 @@ export function AllUserReviews(props) {
                       // onPress={() => Delete(data.id)}
                       // onpress delete review and check function (not implemented yet)
                       onPress={() => {
-                        Delete(data.id);
+                        deleteReview(data.id);
                         //   check();
                       }}
                     />
