@@ -23,6 +23,7 @@ import { LoadingModal } from "../../../components/Shared";
 import { Explore } from "../../../components/Restaurants/Explore";
 import { SearchBarExplore } from "../../../components/Restaurants/SearchBarExplore";
 import { FilterRestaurants } from "../../../components/Restaurants/FilterRestaurants";
+import { ImageBackground } from "react-native";
 
 const ratio = 228 / 250;
 export const MARGIN = 5;
@@ -51,6 +52,7 @@ export function RestaurantsScreen(props) {
     // console.log("restaurant size", restaurants.length);
   };
   const { navigation } = props;
+  const [weBack, setWeBack] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [restaurants, setRestaurants] = useState();
@@ -100,6 +102,8 @@ export function RestaurantsScreen(props) {
         locationTemp.coords.longitude,
       ])
     );
+    //setWeBack to the opposite of the current state
+    setWeBack((prevState) => !prevState);
     console.log("LOCATIONTEMP", locationTemp);
   };
 
@@ -227,7 +231,7 @@ export function RestaurantsScreen(props) {
       // where("geohash", ">=", geohash.substring(0, 4))
       // where geohash contains the first 4 characters of the user geohash not implemented yet
 
-      // where("geohash", "==", "ey9g43wkyz")
+      // where("geohash", "==", "ey9g43wky")
     );
     //chequea este
     // onSnapshot(q, (snapshot) => {
@@ -239,10 +243,24 @@ export function RestaurantsScreen(props) {
     //   // console.log("restaurantsNUEVOSlenght", restaurants.lenght);
     // });
     //hasta aqui
-    const querySnapshot = await getDocs(q);
-    const data = querySnapshot.docs.map((doc) => doc.data());
-    setRestaurants(data);
-    setInitialRestaurants(data);
+    // es este el que funciona
+    // const querySnapshot = await getDocs(q);
+    // const data = querySnapshot.docs.map((doc) => doc.data());
+    // setRestaurants(data);
+    // setInitialRestaurants(data);
+
+    //hasta aqui
+
+    //este he probado ahora
+
+    onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((doc) => doc.data());
+
+      setRestaurants(data);
+      setInitialRestaurants(data);
+
+      // console.log("restaurantsNUEVOSlenght", restaurants.lenght);
+    });
   };
 
   useEffect(() => {
@@ -251,17 +269,24 @@ export function RestaurantsScreen(props) {
     // getRestaurants();
   }, []);
   //chequea este tambien
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     getRestaurants();
+  //   }, [geohash])
+  // );
+
+  //hasta aqui
   useFocusEffect(
     useCallback(() => {
-      getRestaurants();
-    }, [geohash])
+      console.log("WEBACK");
+      getLocation();
+    }, [])
   );
-  //hasta aqui
-  // useEffect(() => {
-  //   // getLocation();
-  //   // console.log("GEOHASH1", geohash.substring(0, 4));
-  //   getRestaurants();
-  // }, [geohash]);
+  useEffect(() => {
+    // getLocation();
+    // console.log("GEOHASH1", geohash.substring(0, 4));
+    getRestaurants();
+  }, [geohash]);
 
   // useEffect(() => {
   //   (async () => {
@@ -302,7 +327,7 @@ export function RestaurantsScreen(props) {
             // if restaurants.lenght is 0 then show the text no results found else show the Explore component
             (restaurants.length === 0 ? (
               <View>
-                <Icon
+                {/* <Icon
                   type="material-community"
                   name="alert"
                   size={50}
@@ -311,7 +336,12 @@ export function RestaurantsScreen(props) {
                 <Text style={styles.text}>Sorry, no business around you</Text>
                 <Text style={styles.subText}>
                   Apply some filters to see more
-                </Text>
+                </Text> */}
+                <ImageBackground
+                  // the source is noBussiness.png which is in the assets folder
+                  source={require("../../../../assets/img/noBusiness.png")}
+                  style={styles.image}
+                ></ImageBackground>
               </View>
             ) : (
               <Explore

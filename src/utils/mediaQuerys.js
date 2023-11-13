@@ -4,7 +4,7 @@ import "@expo/match-media";
 import { useMediaQuery } from "react-responsive";
 
 export const isTabletOrMobileDevice = useMediaQuery({
-  query: "(max-device-width: 1224px)",
+  query: "(max-device-width: 390px)",
 });
 export const isDeviceWidth295_369 = useMediaQuery({
   query: "(min-device-width:295px) and (max-device-width:359px)",

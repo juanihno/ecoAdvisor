@@ -11,6 +11,7 @@ import {
   collection,
   where,
   getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../../../utils";
 import { Header, Info, EcoInfo } from "../../../components/Restaurant";
@@ -33,6 +34,7 @@ const { width, height } = Dimensions.get("window");
 
 export function EditRestaurantScreen(props) {
   const { route } = props;
+  console.log("ROUTEID", route.params.id);
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("false");
   const [_, setReload] = useState(false);
@@ -42,6 +44,7 @@ export function EditRestaurantScreen(props) {
   // create const array images with all images from restaurant
 
   const auth = getAuth();
+  console.log("SERID", auth.currentUser.uid);
 
   const getRestaurantData = async () => {
     setRestaurant(null);
@@ -54,6 +57,24 @@ export function EditRestaurantScreen(props) {
   const DeleteBussiness = async () => {
     setLoading(true);
     setLoadingText("Deleting bussiness");
+    // await deleteDoc(doc(db, "favorites", route.params.id));
+    try {
+      const querySnapshot = await getDocs(
+        query(
+          collection(db, "favorites"),
+          where("idUser", "==", auth.currentUser.uid),
+          where("idRestaurant", "==", route.params.id)
+        )
+      );
+
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+      });
+    } catch (error) {
+      // Handle any potential errors here
+      console.error("Error deleting documents: ", error);
+    }
+
     const docRef = doc(db, "restaurants", route.params.id);
     await deleteDoc(docRef);
     setLoading(false);

@@ -12,7 +12,10 @@ export function Carousel(props) {
   const [activeDotIndex, setActiveDotIndex] = useState(0);
 
   const renderItem = ({ item }) => (
-    <Image style={{ height, width }} source={{ uri: item }} />
+    <Image
+      style={{ height, width: "50%", resizeMethod: "auto" }}
+      source={{ uri: item }}
+    />
   );
   const pagination = () => {
     return (

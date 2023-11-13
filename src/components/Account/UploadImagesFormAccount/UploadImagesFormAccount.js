@@ -31,25 +31,31 @@ export function UploadImagesFormAccount(props) {
   };
 
   const openGallery = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      // presentationStyle: "fullScreen",
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (result.canceled) {
-      return;
-    }
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        // presentationStyle: "fullScreen",
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        // allowsEditing: platform === "ios" ? false : true,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 0.2,
+      });
+      // if (result.canceled) {
+      //   return;
+      // }
 
-    if (!result.canceled) {
-      setIsloading(true);
-      // uploadImage(result.uri);
-      uploadImage(result.assets[0].uri);
+      if (!result.canceled) {
+        setIsloading(true);
+        uploadImage(result.uri);
+        // uploadImage(result.assets[0].uri);
 
-      // getRestaurantData();
+        // getRestaurantData();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
   const uploadImage = async (uri) => {
     const response = await fetch(uri);
     const blob = await response.blob();

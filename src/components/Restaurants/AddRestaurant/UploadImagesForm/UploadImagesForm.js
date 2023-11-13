@@ -16,7 +16,7 @@ export function UploadImagesForm(props) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.2,
     });
     if (!result.canceled) {
       setIsloading(true);

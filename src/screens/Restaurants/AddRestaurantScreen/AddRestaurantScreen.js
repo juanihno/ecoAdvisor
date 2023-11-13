@@ -18,7 +18,7 @@ export function AddRestaurantScreen(props) {
 
   const { navigation } = props;
   const goToEcoForm = () => {
-    navigation.navigate(screen.restaurant.businessTypeForm, {
+    navigation.navigate(screen.add.businessTypeForm, {
       ownerFormValue: formik.values,
       console: console.log("addRestaurantScreen values: ", formik.values),
     });

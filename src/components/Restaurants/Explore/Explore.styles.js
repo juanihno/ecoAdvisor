@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import {
   width,
   height,
@@ -9,7 +9,12 @@ import {
   SPACING_FOR_CARD_INSET,
 } from "../../../screens/Restaurants/RestaurantsScreen";
 // import { isDeviceWidth375_667 } from "../../../utils/mediaQuery";
-import { isDeviceWidth370_390 } from "../../../utils";
+import {
+  isDeviceWidth370_390,
+  isDeviceWidth375_667,
+  isDeviceWidth414,
+  isTabletOrMobileDevice,
+} from "../../../utils";
 
 // import { width } from "../../../screens/Restaurants/RestaurantsScreen";
 export const styles = StyleSheet.create({
@@ -152,7 +157,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     // borderRadius: isDeviceWidth370_391 ? 0 : 3,
     borderRadius: 15,
-    borderWidth: isDeviceWidth370_390 ? 0 : 1,
+    borderWidth: Platform.OS === "ios" ? 0 : 1,
+    // borderWidth: isTabletOrMobileDevice ? 0 : 1,
     borderColor: "#FF6347",
     // borderWidth: CARD_HEIGHT < 215 ? 0 : 1,
     // borderWidth: height > 750 ? 0 : 1,

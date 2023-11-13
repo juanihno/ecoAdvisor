@@ -278,8 +278,8 @@ export function FilterRestaurants(props) {
           });
     }
     setNewData({ ...newData });
-    console.log("newDataOptionsFiltersShop", shopOptionsFilter);
-    console.log("newDataOptionsFiltersRes", restaurantOptionsFilter);
+    // console.log("newDataOptionsFiltersShop", shopOptionsFilter);
+    // console.log("newDataOptionsFiltersRes", restaurantOptionsFilter);
   };
   const clearAll = () => {
     newData.restaurants.map((item) => {
@@ -596,7 +596,7 @@ export function FilterRestaurants(props) {
               <View style={styles.content}>
                 {newData.restaurants.map((item) => {
                   return (
-                    <>
+                    <View key={item.id}>
                       <View key={item.id} style={styles.switch}>
                         <Text style={styles.text}>{item.name}</Text>
                         <Switch
@@ -666,12 +666,12 @@ export function FilterRestaurants(props) {
                           })}
                         </>
                       )}
-                    </>
+                    </View>
                   );
                 })}
                 {newData.shops.map((item) => {
                   return (
-                    <>
+                    <View key={item.id}>
                       <View key={item.id} style={styles.switch}>
                         <Text style={styles.text}>{item.name}</Text>
                         <Switch
@@ -741,7 +741,7 @@ export function FilterRestaurants(props) {
                           })}
                         </>
                       )}
-                    </>
+                    </View>
                   );
                 })}
               </View>

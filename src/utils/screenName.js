@@ -34,7 +34,14 @@ const accountStack = {
 };
 const addStack = {
   tab: "AddTab",
+  addHome: "AddHome",
   add: "Add",
+  // businessTypes: "BusinessType",
+  // restaurantType: "RestaurantTypes",
+  // shopType: "ShopType",
+  businessTypeForm: "BusinessTypeForm",
+  restaurantTypeForm: "RestaurantTypeForm",
+  shopTypeForm: "ShopTypeForm",
 };
 export const screen = {
   restaurant: restaurantStack,

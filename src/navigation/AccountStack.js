@@ -13,12 +13,12 @@ export function AccountStack() {
       <Stack.Screen
         name={screen.account.account}
         component={AccountScreen}
-        options={{ title: "Account" }}
+        options={{ title: "" }}
       />
       <Stack.Screen
         name={screen.account.login}
         component={LoginScreen}
-        options={{ title: "Login" }}
+        options={{ title: "" }}
       />
       <Stack.Screen
         name={screen.account.register}

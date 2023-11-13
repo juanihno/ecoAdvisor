@@ -91,6 +91,7 @@ export function RestaurantScreen(props) {
           arrayImages={restaurant.images}
           height={height / 3.5}
           width={width / 0.5}
+
           // hideDots
         />
       </View>

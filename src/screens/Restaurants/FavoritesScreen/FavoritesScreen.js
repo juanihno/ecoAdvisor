@@ -45,14 +45,24 @@ export function FavoritesScreen() {
         collection(db, "favorites"),
         where("idUser", "==", auth.currentUser.uid)
       );
+      console.log("USUARIO", auth.currentUser.uid);
       onSnapshot(q, async (snapshot) => {
         let bussinesArray = [];
         for await (const item of snapshot.docs) {
+          // console.log("onsanap", snapshot.docs);
+
           const data = item.data();
+          console.log("onsanap", data.id);
+
           const docRef = doc(db, "restaurants", data.idRestaurant);
           const docSnap = await getDoc(docRef);
+          console.log("ytuyutuytyouogjhgccc", docSnap.data());
+
           const newData = docSnap.data();
+          console.log("NEWDATA", newData);
+
           newData.idFavorite = data.id;
+          console.log("NEWDATA", newData);
           bussinesArray.push(newData);
         }
         setBusiness(bussinesArray);
